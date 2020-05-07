@@ -84,10 +84,10 @@ public class RoomPanel : PanelBase
                 str += "【主机】";
             text.text = str;
 
-            if (team == 1)
-                trans.GetComponent<Image>().color = Color.red;
-            else
-                trans.GetComponent<Image>().color = Color.blue;
+            //if (team == 1)
+            //    trans.GetComponent<Image>().color = Color.red;
+            //else
+            //    trans.GetComponent<Image>().color = Color.blue;
         }
 
         for (; i < 6; i++)

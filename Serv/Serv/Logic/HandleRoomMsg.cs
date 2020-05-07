@@ -12,10 +12,18 @@ public partial class HandlePlayerMsg
 	//创建房间
 	public void MsgCreateRoom(Player player, ProtocolBase protoBase)
 	{
-		ProtocolBytes protocol = new ProtocolBytes ();
+        //获取数值
+        int start = 0;
+        ProtocolBytes protocol = (ProtocolBytes)protoBase;
+        string protoName = protocol.GetString(start, ref start);
+        int boatModelValue = protocol.GetInt(start, ref start);
+        Console.WriteLine("MsgCreateRoom return boatModelValue is " + boatModelValue);
+
+        protocol = new ProtocolBytes ();
 		protocol.AddString ("CreateRoom");
-		//条件检测
-		if (player.tempData.status != PlayerTempData.Status.None) 
+        protocol.AddInt(boatModelValue);
+        //条件检测
+        if (player.tempData.status != PlayerTempData.Status.None) 
 		{
 			Console.WriteLine ("MsgCreateRoom Fail " + player.id);
 			protocol.AddInt(-1);
@@ -24,7 +32,7 @@ public partial class HandlePlayerMsg
 		}
 		RoomMgr.instance.CreateRoom (player);
 		protocol.AddInt(0);
-		player.Send (protocol);
+        player.Send (protocol);
 		Console.WriteLine ("MsgCreateRoom Ok " + player.id);
 	}
 
@@ -35,13 +43,15 @@ public partial class HandlePlayerMsg
 		int start = 0;
 		ProtocolBytes protocol = (ProtocolBytes)protoBase;
 		string protoName = protocol.GetString (start, ref start);
-		int index = protocol.GetInt (start, ref start);
+        int boatModelValue = protocol.GetInt(start, ref start);
+        int index = protocol.GetInt (start, ref start);
 		Console.WriteLine ("[收到MsgEnterRoom]" + player.id + " " + index);
 		//
 		protocol = new ProtocolBytes ();
 		protocol.AddString ("EnterRoom");
-		//判断房间是否存在
-		if (index < 0 || index >= RoomMgr.instance.list.Count) 
+        protocol.AddInt(boatModelValue);
+        //判断房间是否存在
+        if (index < 0 || index >= RoomMgr.instance.list.Count) 
 		{
 			Console.WriteLine ("MsgEnterRoom index err " + player.id);
 			protocol.AddInt(-1);

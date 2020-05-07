@@ -9,6 +9,7 @@ public class RoomListPanel : PanelBase
 {
     private Text idText;
     private Text ipText;
+    private Dropdown shipModel;
     private Text winText;
     private Text lostText;
     private Transform content;
@@ -36,6 +37,7 @@ public class RoomListPanel : PanelBase
         //获取成绩栏部件
         idText = winTrans.Find("IDText").GetComponent<Text>();
         ipText = winTrans.Find("IPText").GetComponent<Text>();
+        shipModel = winTrans.Find("ShipModel").GetComponent<Dropdown>();
         winText = winTrans.Find("WinText").GetComponent<Text>();
         lostText = winTrans.Find("LostText").GetComponent<Text>();
         //获取列表栏部件
@@ -196,7 +198,7 @@ public class RoomListPanel : PanelBase
     {
         ProtocolBytes protocol = new ProtocolBytes();
         protocol.AddString("EnterRoom");
-
+        protocol.AddInt(shipModel.value);
         protocol.AddInt(int.Parse(name));
         NetMgr.srvConn.Send(protocol, OnJoinBtnBack);
         Debug.Log("请求进入房间 " + name);
@@ -209,6 +211,7 @@ public class RoomListPanel : PanelBase
         ProtocolBytes proto = (ProtocolBytes)protocol;
         int start = 0;
         string protoName = proto.GetString(start, ref start);
+        int boatModelValue = proto.GetInt(start, ref start);
         int ret = proto.GetInt(start, ref start);
         //处理
         if (ret == 0)
@@ -228,6 +231,7 @@ public class RoomListPanel : PanelBase
     {
         ProtocolBytes protocol = new ProtocolBytes();
         protocol.AddString("CreateRoom");
+        protocol.AddInt(shipModel.value);
         NetMgr.srvConn.Send(protocol, OnNewBack);
     }
 
@@ -238,6 +242,7 @@ public class RoomListPanel : PanelBase
         ProtocolBytes proto = (ProtocolBytes)protocol;
         int start = 0;
         string protoName = proto.GetString(start, ref start);
+        int boatModelValue = proto.GetInt(start, ref start);
         int ret = proto.GetInt(start, ref start);
         //处理
         if (ret == 0)
