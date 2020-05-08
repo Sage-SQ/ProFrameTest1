@@ -68,6 +68,7 @@ public class RoomPanel : PanelBase
         {
             string id = proto.GetString(start, ref start);
             int team = proto.GetInt(start, ref start);
+            int boatModel = proto.GetInt(start, ref start);
             int win = proto.GetInt(start, ref start);
             int fail = proto.GetInt(start, ref start);
             int isOwner = proto.GetInt(start, ref start);
@@ -75,7 +76,22 @@ public class RoomPanel : PanelBase
             Transform trans = prefabs[i];
             Text text = trans.Find("Text").GetComponent<Text>();
             string str = "账号名称：" + id + "\r\n";
-            str += "船 型 号：" + (team == 1 ? "红" : "蓝") + "\r\n";
+            switch(boatModel)
+            {
+                case 0:
+                    str += "船 型 号：智腾号" + "\r\n";
+                    break;
+                case 1:
+                    str += "船 型 号：智腾号green" + "\r\n";
+                    break;
+                case 2:
+                    str += "船 型 号：ship1" + "\r\n";
+                    break;
+                default:
+                    str += "船 型 号：未知类型" + "\r\n";
+                    break;
+            }
+            //str += "阵    营：" + (team == 1 ? "红" : "蓝") + "\r\n";
             str += "胜利：" + win.ToString() + "   ";
             str += "失败：" + fail.ToString() + "\r\n";
             if (id == GameMgr.instance.id)

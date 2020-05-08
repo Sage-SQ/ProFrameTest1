@@ -30,7 +30,7 @@ public partial class HandlePlayerMsg
 			player.Send (protocol);
 			return;
 		}
-		RoomMgr.instance.CreateRoom (player);
+		RoomMgr.instance.CreateRoom (player, boatModelValue);
 		protocol.AddInt(0);
         player.Send (protocol);
 		Console.WriteLine ("MsgCreateRoom Ok " + player.id);
@@ -68,7 +68,7 @@ public partial class HandlePlayerMsg
 			return;
 		}
 		//添加玩家
-		if (room.AddPlayer (player))
+		if (room.AddPlayer (player, boatModelValue))
 		{
 			room.Broadcast(room.GetRoomInfo());
 			protocol.AddInt(0);

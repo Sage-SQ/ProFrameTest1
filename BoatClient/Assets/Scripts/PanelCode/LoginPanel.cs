@@ -22,10 +22,10 @@ public class LoginPanel : PanelBase
     {
         base.OnShowing();
         Transform skinTrans = skin.transform;
-        idInput = skinTrans.Find("IDInput").GetComponent<InputField>();
-        pwInput = skinTrans.Find("PWInput").GetComponent<InputField>();
-        loginBtn = skinTrans.Find("LoginBtn").GetComponent<Button>();
-        regBtn = skinTrans.Find("RegBtn").GetComponent<Button>();
+        idInput = skinTrans.Find("Panel").Find("IDInput").GetComponent<InputField>();
+        pwInput = skinTrans.Find("Panel").Find("PWInput").GetComponent<InputField>();
+        loginBtn = skinTrans.Find("Panel").Find("LoginBtn").GetComponent<Button>();
+        regBtn = skinTrans.Find("Panel").Find("RegBtn").GetComponent<Button>();
 
         loginBtn.onClick.AddListener(OnLoginClick);
         regBtn.onClick.AddListener(OnRegClick);

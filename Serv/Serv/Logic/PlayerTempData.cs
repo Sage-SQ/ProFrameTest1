@@ -18,7 +18,8 @@ public class PlayerTempData
 	//room状态
 	public Room room;
 	public int team = 1;
-	public bool isOwner = false;
+    public int boatModel = 0;
+    public bool isOwner = false;
 	//战场相关
 	public long lastUpdateTime;
 	public float posX;

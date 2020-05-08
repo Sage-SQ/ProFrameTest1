@@ -99,12 +99,6 @@ public class Boat : MonoBehaviour
         //NetWheelsRotation();
     }
 
-    public void NetTurretTarget(float y, float x)
-    {
-        //turretRotTarget = y;
-        //turretRollTarget = x;
-    }
-
     struct Position
     {
         public Vector3 forwardAmount;

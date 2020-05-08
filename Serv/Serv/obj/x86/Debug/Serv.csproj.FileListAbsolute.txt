@@ -13,7 +13,6 @@ E:\Work1\ProFrameTest1\Serv\Serv\bin\Debug\K4os.Compression.LZ4.dll
 E:\Work1\ProFrameTest1\Serv\Serv\bin\Debug\K4os.Hash.xxHash.dll
 E:\Work1\ProFrameTest1\Serv\Serv\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
 E:\Work1\ProFrameTest1\Serv\Serv\bin\Debug\MySql.Data.xml
-E:\Work1\ProFrameTest1\Serv\Serv\obj\x86\Debug\Serv.csprojAssemblyReference.cache
 E:\Work1\ProFrameTest1\Serv\Serv\obj\x86\Debug\Serv.csproj.CoreCompileInputs.cache
 E:\Work1\ProFrameTest1\Serv\Serv\obj\x86\Debug\Serv.csproj.CopyComplete
 E:\Work1\ProFrameTest1\Serv\Serv\obj\x86\Debug\Serv.exe

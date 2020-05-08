@@ -18,7 +18,7 @@ public class Room
 
 
 	//添加玩家
-	public bool AddPlayer(Player player)
+	public bool AddPlayer(Player player,int boatModelValue)
 	{
 		lock (list) 
 		{
@@ -27,6 +27,7 @@ public class Room
 			PlayerTempData tempData = player.tempData;
 			tempData.room = this; 
 			tempData.team = SwichTeam ();
+            tempData.boatModel = boatModelValue;
 			tempData.status = PlayerTempData.Status.Room;
 			
 			if(list.Count == 0)
@@ -107,7 +108,8 @@ public class Room
 		{
 			protocol.AddString(p.id);
 			protocol.AddInt(p.tempData.team);
-			protocol.AddInt(p.data.win);
+            protocol.AddInt(p.tempData.boatModel);
+            protocol.AddInt(p.data.win);
 			protocol.AddInt(p.data.fail);
 			int isOwner = p.tempData.isOwner? 1: 0;
 			protocol.AddInt(isOwner);
@@ -153,7 +155,8 @@ public class Room
 				p.tempData.hp = 200;
 				protocol.AddString(p.id);
 				protocol.AddInt(p.tempData.team);
-				if(p.tempData.team == 1)
+                protocol.AddInt(p.tempData.boatModel);
+                if (p.tempData.team == 1)
 					protocol.AddInt(teamPos1++);
 				else
 					protocol.AddInt(teamPos2++);

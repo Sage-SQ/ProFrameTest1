@@ -61,8 +61,9 @@ public class MultiSimulate : MonoBehaviour
         {
             string id = proto.GetString(start, ref start);
             int team = proto.GetInt(start, ref start);
+            int boatModel = proto.GetInt(start, ref start);
             int swopID = proto.GetInt(start, ref start);
-            GenerateTank(id, team, swopID);
+            GenerateTank(id, team, boatModel, swopID);
         }
         NetMgr.srvConn.msgDist.AddListener("UpdateUnitInfo", RecvUpdateUnitInfo);
         //NetMgr.srvConn.msgDist.AddListener ("Shooting", RecvShooting);
@@ -71,7 +72,7 @@ public class MultiSimulate : MonoBehaviour
     }
 
     //产生船
-    public void GenerateTank(string id, int team, int swopID)
+    public void GenerateTank(string id, int team,int boatModel, int swopID)
     {
         //获取出生点
         Transform sp = GameObject.Find("SwopPoints").transform;
@@ -98,7 +99,7 @@ public class MultiSimulate : MonoBehaviour
             return;
         }
         //产生船
-        GameObject boatObj = (GameObject)Instantiate(boatPrefabs[team - 1]);
+        GameObject boatObj = (GameObject)Instantiate(boatPrefabs[boatModel]);
         boatObj.name = id;
         boatObj.transform.position = swopTrans.position;
         boatObj.transform.rotation = swopTrans.rotation;
@@ -152,6 +153,5 @@ public class MultiSimulate : MonoBehaviour
             return;
 
         sb.boat.NetForecastInfo(nPos, nRot);
-        sb.boat.NetTurretTarget(turretY, gunX); //稍后实现
     }
 }
