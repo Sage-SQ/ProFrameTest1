@@ -20,7 +20,7 @@ public class PlayerTempData
 	public int team = 1;
     public int boatModel = 0;
     public bool isOwner = false;
-	//战场相关
+	//场景相关
 	public long lastUpdateTime;
 	public float posX;
 	public float posY;

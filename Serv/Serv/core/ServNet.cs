@@ -205,17 +205,17 @@ public class ServNet
 			Console.WriteLine ("[处理链接消息]" + conn.GetAdress() + " :" + name);
 			mm.Invoke (handleConnMsg, obj); 
 		}
-		//角色协议分发
+		//用户协议分发
 		else
 		{
 			MethodInfo mm = handlePlayerMsg.GetType().GetMethod (methodName);
 			if (mm == null) {
-				string str = "[警告]HandleMsg没有处理玩家方法 ";
+				string str = "[警告]HandleMsg没有处理用户方法 ";
 				Console.WriteLine (str + methodName);
 				return;
 			}
 			Object[] obj = new object[]{conn.player,protoBase};
-			Console.WriteLine ("[处理玩家消息]" + conn.player.id + " :" + name);
+			Console.WriteLine ("[处理用户消息]" + conn.player.id + " :" + name);
 			mm.Invoke (handlePlayerMsg, obj);
 		}
 	}
@@ -291,7 +291,7 @@ public class ServNet
 			
 			string str = "连接[" + conns[i].GetAdress() + "] ";
 			if(conns[i].player != null)
-				str += "玩家id " + conns[i].player.id;
+				str += "用户id " + conns[i].player.id;
 			
 			Console.WriteLine(str);
 		}

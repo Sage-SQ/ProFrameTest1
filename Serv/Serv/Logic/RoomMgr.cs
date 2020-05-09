@@ -25,7 +25,7 @@ public class RoomMgr
 		}
 	}
 
-	//玩家离开
+	//用户离开
 	public void LeaveRoom(Player player)
 	{
 		PlayerTempData tempDate = player.tempData;

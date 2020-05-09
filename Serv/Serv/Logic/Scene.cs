@@ -23,7 +23,7 @@ public class Scene
 		return null;
 	}
 	
-	//添加玩家
+	//添加用户
 	public void AddPlayer(string id)
 	{
 		lock (list)
@@ -34,7 +34,7 @@ public class Scene
 		}
 	}
 	
-	//删除玩家
+	//删除用户
 	public void DelPlayer(string id)
 	{
 		lock (list)

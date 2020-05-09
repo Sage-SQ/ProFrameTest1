@@ -27,7 +27,7 @@ public partial class HandlePlayerMsg
 	//	Console.WriteLine ("MsgAddScore " + player.id + " " + player.data.score.ToString ());
 	//}
 
-	//获取玩家列表
+	//获取用户列表
 	public void MsgGetList(Player player, ProtocolBase protoBase)
 	{
 		Scene.instance.SendPlayerList (player);
@@ -56,7 +56,7 @@ public partial class HandlePlayerMsg
 	//	ServNet.instance.Broadcast (protocolRet);
 	//}
 
-	//获取玩家信息
+	//获取用户信息
 	public void MsgGetAchieve(Player player, ProtocolBase protoBase)
 	{
 		ProtocolBytes protocolRet = new ProtocolBytes ();

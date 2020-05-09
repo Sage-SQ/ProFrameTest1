@@ -156,7 +156,7 @@ public class DataMgr
 		}
 	}
 
-	//获取玩家数据
+	//获取用户数据
 	//public PlayerData GetPlayerData(string id)
 	//{
 	//	PlayerData playerData = null;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public partial class HandlePlayerMsg
 {
-	//开始战斗
+	//开始模拟
 	public void MsgStartFight(Player player, ProtocolBase protoBase)
 	{
 		ProtocolBytes protocol = new ProtocolBytes ();
@@ -34,13 +34,13 @@ public partial class HandlePlayerMsg
 			return;
 		}
 		
-		//开始战斗
+		//开始模拟
 		protocol.AddInt (0);
 		player.Send (protocol);
 		room.StartFight ();
 	}
 
-	//同步坦克单元
+	//同步船只单元
 	public void MsgUpdateUnitInfo(Player player, ProtocolBase protoBase)
 	{
 		//获取数值

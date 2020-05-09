@@ -54,7 +54,7 @@ public class Player
 	//下线
 	public bool Logout()
 	{
-		//事件处理，稍后实现
+		//事件处理
 		ServNet.instance.handlePlayerEvent.OnLogout(this);
 		//保存
 		//if (!DataMgr.instance.SavePlayer(this))

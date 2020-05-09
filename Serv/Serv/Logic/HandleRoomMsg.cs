@@ -67,7 +67,7 @@ public partial class HandlePlayerMsg
 			player.Send (protocol);
 			return;
 		}
-		//添加玩家
+		//添加用户
 		if (room.AddPlayer (player, boatModelValue))
 		{
 			room.Broadcast(room.GetRoomInfo());

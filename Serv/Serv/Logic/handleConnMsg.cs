@@ -35,7 +35,7 @@ public partial class HandleConnMsg
 		{
 			protocol.AddInt(-1);
 		}
-		//创建角色
+		//创建用户
 		//DataMgr.instance.CreatePlayer (id);
 		//返回协议给客户端
 		conn.Send (protocol);
@@ -74,7 +74,7 @@ public partial class HandleConnMsg
 			return;
 		}
 
-		//获取玩家数据
+		//获取用户数据
 		//PlayerData playerData = DataMgr.instance.GetPlayerData (id);
 		//if (playerData == null)
 		//{

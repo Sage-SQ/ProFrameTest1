@@ -1,14 +1,14 @@
-using System;
+//using System;
 
-[Serializable]
-public class PlayerData
-{
-	//public int score = 0;
-	//public int win = 0;
-	//public int fail = 0;
+//[Serializable]
+//public class PlayerData
+//{
+//	//public int score = 0;
+//	//public int win = 0;
+//	//public int fail = 0;
 
-	//public PlayerData()
-	//{
-	//	score = 100;
-	//}
-}
+//	//public PlayerData()
+//	//{
+//	//	score = 100;
+//	//}
+//}

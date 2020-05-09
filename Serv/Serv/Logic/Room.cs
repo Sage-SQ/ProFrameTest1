@@ -12,12 +12,12 @@ public class Room
 		Fight = 2 ,
 	}
 	public Status status = Status.Prepare;
-	//玩家
+	//用户
 	public int maxPlayers = 6;
 	public Dictionary<string,Player> list = new Dictionary<string,Player>();
 
 
-	//添加玩家
+	//添加用户
 	public bool AddPlayer(Player player,int boatModelValue)
 	{
 		lock (list) 
@@ -54,7 +54,7 @@ public class Room
 			return 2;
 	}
 
-	//删除玩家
+	//删除用户
 	public void DelPlayer(string id)
 	{
 		lock (list) 
@@ -69,7 +69,7 @@ public class Room
 		}
 	}
 
-	//更换房主
+	//更换主机
 	public void UpdateOwner()
 	{
 		lock (list) 
@@ -117,7 +117,7 @@ public class Room
 		return protocol;
 	}
 
-	//房间能否开战
+	//房间能否开启模拟
 	public bool CanStart()
 	{
 		if (status != Status.Prepare)
