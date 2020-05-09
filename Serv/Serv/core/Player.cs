@@ -6,7 +6,7 @@ public class Player
 	//id、连接、玩家数据
 	public string id;
 	public Conn conn;
-	public PlayerData data;
+	//public PlayerData data;
 	public PlayerTempData tempData;
 
 	//构造函数，给id和conn赋值
@@ -57,8 +57,8 @@ public class Player
 		//事件处理，稍后实现
 		ServNet.instance.handlePlayerEvent.OnLogout(this);
 		//保存
-		if (!DataMgr.instance.SavePlayer(this))
-			return false;
+		//if (!DataMgr.instance.SavePlayer(this))
+		//	return false;
 		//下线
 		conn.player = null;
 		conn.Close();

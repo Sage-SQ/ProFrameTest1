@@ -109,8 +109,8 @@ public class Room
 			protocol.AddString(p.id);
 			protocol.AddInt(p.tempData.team);
             protocol.AddInt(p.tempData.boatModel);
-            protocol.AddInt(p.data.win);
-			protocol.AddInt(p.data.fail);
+            //protocol.AddInt(p.data.win);
+			//protocol.AddInt(p.data.fail);
 			int isOwner = p.tempData.isOwner? 1: 0;
 			protocol.AddInt(isOwner);
 		}

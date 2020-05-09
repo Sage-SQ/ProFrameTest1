@@ -83,13 +83,13 @@ public class RoomListPanel : PanelBase
         ProtocolBytes proto = (ProtocolBytes)protocol;
         int start = 0;
         string protoName = proto.GetString(start, ref start);
-        int win = proto.GetInt(start, ref start);
-        int lost = proto.GetInt(start, ref start);
+        //int win = proto.GetInt(start, ref start);
+        //int lost = proto.GetInt(start, ref start);
         //处理
         idText.text = "账号：" + GameMgr.instance.id;
         ipText.text = " I  P ：" + GetIP();
-        winText.text = win.ToString();
-        lostText.text = lost.ToString();
+        //winText.text = win.ToString();
+        //lostText.text = lost.ToString();
     }
 
     /// <summary>

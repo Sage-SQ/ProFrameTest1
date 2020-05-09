@@ -17,4 +17,3 @@ E:\Work1\ProFrameTest1\Serv\Serv\obj\x86\Debug\Serv.csproj.CoreCompileInputs.cac
 E:\Work1\ProFrameTest1\Serv\Serv\obj\x86\Debug\Serv.csproj.CopyComplete
 E:\Work1\ProFrameTest1\Serv\Serv\obj\x86\Debug\Serv.exe
 E:\Work1\ProFrameTest1\Serv\Serv\obj\x86\Debug\Serv.pdb
-E:\Work1\ProFrameTest1\Serv\Serv\obj\x86\Debug\Serv.csprojAssemblyReference.cache

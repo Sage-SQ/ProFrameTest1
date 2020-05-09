@@ -69,8 +69,8 @@ public class RoomPanel : PanelBase
             string id = proto.GetString(start, ref start);
             int team = proto.GetInt(start, ref start);
             int boatModel = proto.GetInt(start, ref start);
-            int win = proto.GetInt(start, ref start);
-            int fail = proto.GetInt(start, ref start);
+            //int win = proto.GetInt(start, ref start);
+            //int fail = proto.GetInt(start, ref start);
             int isOwner = proto.GetInt(start, ref start);
             //信息处理
             Transform trans = prefabs[i];
@@ -92,8 +92,8 @@ public class RoomPanel : PanelBase
                     break;
             }
             //str += "阵    营：" + (team == 1 ? "红" : "蓝") + "\r\n";
-            str += "胜利：" + win.ToString() + "   ";
-            str += "失败：" + fail.ToString() + "\r\n";
+            //str += "胜利：" + win.ToString() + "   ";
+            //str += "失败：" + fail.ToString() + "\r\n";
             if (id == GameMgr.instance.id)
                 str += "【我自己】";
             if (isOwner == 1)
