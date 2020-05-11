@@ -186,12 +186,15 @@
     <Compile Include="Assets\Scripts\PanelCode\RegPanel.cs" />
     <Compile Include="Assets\Scripts\PanelCode\RoomListPanel.cs" />
     <Compile Include="Assets\Scripts\PanelCode\RoomPanel.cs" />
+    <Compile Include="Assets\Scripts\PanelCode\ScenePanel.cs" />
     <Compile Include="Assets\Scripts\PanelCode\TipPanel.cs" />
     <Compile Include="Assets\Scripts\PanelCode\TitlePanel.cs" />
     <Compile Include="Assets\Scripts\PanelCode\WinPanel.cs" />
     <Compile Include="Assets\Scripts\Path.cs" />
     <Compile Include="Assets\Scripts\SimulateBoat.cs" />
     <Compile Include="Assets\Scripts\Tank.cs" />
+    <Compile Include="Assets\test\MouseLook.cs" />
+    <Compile Include="Assets\test\testCamRay.cs" />
     <None Include="Assets\Ceto\Shaders\Read.compute" />
     <None Include="Assets\Ceto\Shaders\OceanBottom.shader" />
     <None Include="Assets\Ceto\Shaders\OceanShadowCasterBody.cginc" />

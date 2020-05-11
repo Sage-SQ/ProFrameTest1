@@ -138,10 +138,6 @@ public class Boat : MonoBehaviour
         //只有用户操控的船才会生效
         if (ctrlType != CtrlType.player)
             return;
-        ////马力和转向角
-        //motor = maxMotorTorque * Input.GetAxis("Vertical");
-        //steering = maxSteeringAngle * Input.GetAxis("Horizontal");
-
 
         float speed = m_shipMoveSpeed;
         float velocity = m_velocity.magnitude;
@@ -174,36 +170,36 @@ public class Boat : MonoBehaviour
         m_acceleration = Mathf.Clamp(m_acceleration,0.0f,MAX_ACCELERATION);
         m_target.forwardAmount += forward * speed * m_acceleration * Time.deltaTime;
 
-        float dt = Time.deltaTime * 1000.0f;
-        float amount = Mathf.Pow(1.02f, Mathf.Min(dt, 1.0f));
+        //float dt = Time.deltaTime * 1000.0f;
+        //float amount = Mathf.Pow(1.02f, Mathf.Min(dt, 1.0f));
 
-        if(Input.GetAxis("Mouse ScrollWheel") < 0.0f)
-        {
-            m_target.camDistance *= amount;
-        }
-        else if(Input.GetAxis("Mouse ScrollWheel") > 0.0f)
-        {
-            m_target.camDistance /= amount;
-        }
-        m_target.camDistance = Mathf.Max(1.0f, m_target.camDistance);
-        m_target.camRotation.y = Mathf.Clamp(m_target.camRotation.y, 20.0f, 160.0f);
+        //if(Input.GetAxis("Mouse ScrollWheel") < 0.0f)
+        //{
+        //    m_target.camDistance *= amount;
+        //}
+        //else if(Input.GetAxis("Mouse ScrollWheel") > 0.0f)
+        //{
+        //    m_target.camDistance /= amount;
+        //}
+        //m_target.camDistance = Mathf.Max(1.0f, m_target.camDistance);
+        //m_target.camRotation.y = Mathf.Clamp(m_target.camRotation.y, 20.0f, 160.0f);
 
-        if(Input.GetMouseButton(0))
-        {
-            m_target.camRotation.y += Input.GetAxis("Mouse Y") * m_camRotationSpeed;
-            m_target.camRotation.x += Input.GetAxis("Mouse X") * m_camRotationSpeed;
-        }
+        //if(Input.GetMouseButton(0))
+        //{
+        //    m_target.camRotation.y += Input.GetAxis("Mouse Y") * m_camRotationSpeed;
+        //    m_target.camRotation.x += Input.GetAxis("Mouse X") * m_camRotationSpeed;
+        //}
 
         //
         float smoothness;
-        smoothness = 1.0f / Mathf.Clamp(camSmoothness,0.01f,1.0f);
-        float camLerp = Mathf.Clamp01(Time.deltaTime * smoothness);
+        //smoothness = 1.0f / Mathf.Clamp(camSmoothness,0.01f,1.0f);
+        //float camLerp = Mathf.Clamp01(Time.deltaTime * smoothness);
 
         smoothness = 1.0f / Mathf.Clamp(shipSmoothness,0.01f,1.0f);
         float shipLerp = Mathf.Clamp01(Time.deltaTime * smoothness);
 
-        m_position.camDistance = Mathf.Lerp(m_position.camDistance, m_target.camDistance, camLerp);
-        m_position.camRotation = Vector2.Lerp(m_position.camRotation,m_target.camRotation,camLerp);
+        //m_position.camDistance = Mathf.Lerp(m_position.camDistance, m_target.camDistance, camLerp);
+        //m_position.camRotation = Vector2.Lerp(m_position.camRotation,m_target.camRotation,camLerp);
         m_position.forwardAmount = Vector3.Lerp(m_position.forwardAmount,m_target.forwardAmount,shipLerp);
         m_position.turnAmount = Mathf.Lerp(m_position.turnAmount, m_target.turnAmount, shipLerp);
 
@@ -213,37 +209,21 @@ public class Boat : MonoBehaviour
         eulerAngels.y += m_position.turnAmount;
         transform.eulerAngles = eulerAngels;
 
-        float ct = Mathf.Cos(m_position.camRotation.y * Mathf.Deg2Rad);
-        float st = Mathf.Sin(m_position.camRotation.y * Mathf.Deg2Rad);
-        float cp = Mathf.Cos(m_position.camRotation.x * Mathf.Deg2Rad);
-        float sp = Mathf.Sin(m_position.camRotation.x * Mathf.Deg2Rad);
+        //float ct = Mathf.Cos(m_position.camRotation.y * Mathf.Deg2Rad);
+        //float st = Mathf.Sin(m_position.camRotation.y * Mathf.Deg2Rad);
+        //float cp = Mathf.Cos(m_position.camRotation.x * Mathf.Deg2Rad);
+        //float sp = Mathf.Sin(m_position.camRotation.x * Mathf.Deg2Rad);
 
-        Vector3 lookAt = transform.position;
-        Vector3 pos = lookAt + (new Vector3(sp * st, ct, cp * st)) * m_position.camDistance;
+        //Vector3 lookAt = transform.position;
+        //Vector3 pos = lookAt + (new Vector3(sp * st, ct, cp * st)) * m_position.camDistance;
 
-        camObj.transform.position = pos;
-        camObj.transform.LookAt(lookAt);
+        //camObj.transform.position = pos;
+        //camObj.transform.LookAt(lookAt);
+        camObj.transform.position = transform.Find("FlagPoint").position;
+        camObj.transform.rotation = transform.rotation;
 
         m_velocity = transform.position - m_previousPos;
         m_previousPos = transform.position;
-
-
-        ////制动
-        //brakeTorque = 0;
-        //foreach (AxleInfo axleInfo in axleInfos)
-        //{
-        //    if (axleInfo.leftWheel.rpm > 5 && motor < 0)  //前进时，按下“下”键
-        //        brakeTorque = maxBrakeTorque;
-        //    else if (axleInfo.leftWheel.rpm < -5 && motor > 0)  //后退时，按下“上”键
-        //        brakeTorque = maxBrakeTorque;
-        //    continue;
-        //}
-
-        ////炮塔炮管角度
-        //TargetSignPos();
-        ////发射炮弹
-        //if (Input.GetMouseButton(0))
-        //    Shoot();
 
         //网络同步
         if (Time.time - lastSendInfoTime > 0.2f)
@@ -258,14 +238,6 @@ public class Boat : MonoBehaviour
     {
         if (ctrlType != CtrlType.computer)
             return;
-
-        ////炮塔方位
-        //Vector3 rot = ai.GetTurretTarget();
-        //turretRotTarget = rot.y;
-        //turretRollTarget = rot.x;
-        ////发射炮弹
-        //if (ai.IsShoot())
-        //    Shoot();
 
         ////移动
         //steering = ai.GetSteering();
@@ -288,20 +260,10 @@ public class Boat : MonoBehaviour
     {
         camObj = Camera.main.gameObject;
 
-        ////获取炮塔
-        //turret = transform.Find("turret");
-        ////获取炮管
-        //gun = turret.Find("gun");
-        ////获取轮子
-        //wheels = transform.Find("wheels");
-        ////获取履带
-        //tracks = transform.Find("tracks");
         //马达音源
         motorAudioSource = gameObject.AddComponent<AudioSource>();
         motorAudioSource.spatialBlend = 1;
-        ////发射音源
-        //shootAudioSource = gameObject.AddComponent<AudioSource>();
-        //shootAudioSource.spatialBlend = 1;
+
         //人工智能
         if (ctrlType == CtrlType.computer)
         {
@@ -334,35 +296,9 @@ public class Boat : MonoBehaviour
         //遍历车轴
         foreach (AxleInfo axleInfo in axleInfos)
         {
-            ////转向
-            //if (axleInfo.steering)
-            //{
-            //    axleInfo.leftWheel.steerAngle = steering;
-            //    axleInfo.rightWheel.steerAngle = steering;
-            //}
-            ////马力
-            //if (axleInfo.motor)
-            //{
-            //    axleInfo.leftWheel.motorTorque = motor;
-            //    axleInfo.rightWheel.motorTorque = motor;
-            //}
-            ////制动
-            //if (true)
-            //{
-            //    axleInfo.leftWheel.brakeTorque = brakeTorque;
-            //    axleInfo.rightWheel.brakeTorque = brakeTorque;
-            //}
-            ////转动轮子履带
-            //if (axleInfos[1] != null && axleInfo == axleInfos[1])
-            //{
-            //    WheelsRotation(axleInfos[1].leftWheel);
-            //    TrackMove();
-            //}
+
         }
 
-        ////炮塔炮管旋转
-        //TurretRotation();
-        //TurretRoll();
         //马达音效
         MotorSound();
     }
@@ -395,12 +331,7 @@ public class Boat : MonoBehaviour
         proto.AddFloat(rot.x);
         proto.AddFloat(rot.y);
         proto.AddFloat(rot.z);
-        ////炮塔
-        //float angleY = turretRotTarget;
-        //proto.AddFloat(angleY);
-        ////炮管
-        //float angleX = turretRollTarget;
-        //proto.AddFloat(angleX);
+
         NetMgr.srvConn.Send(proto);
     }
 }

@@ -171,6 +171,7 @@ public class RoomPanel : PanelBase
         ProtocolBytes proto = (ProtocolBytes)protocol;
         //MultiBattle.instance.StartBattle(proto);
         MultiSimulate.instance.StartBattle(proto);
+        PanelMgr.instance.OpenPanel<ScenePanel>("");
         Close();
     }
 
