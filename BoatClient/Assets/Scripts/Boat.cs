@@ -172,31 +172,34 @@ public class Boat : MonoBehaviour
 
         float smoothness;
 
-        //float dt = Time.deltaTime * 1000.0f;
-        //float amount = Mathf.Pow(1.02f, Mathf.Min(dt, 1.0f));
+        if(GlobalSetting.lookMode == 1)
+        {
+            float dt = Time.deltaTime * 1000.0f;
+            float amount = Mathf.Pow(1.02f, Mathf.Min(dt, 1.0f));
 
-        //if(Input.GetAxis("Mouse ScrollWheel") < 0.0f)
-        //{
-        //    m_target.camDistance *= amount;
-        //}
-        //else if(Input.GetAxis("Mouse ScrollWheel") > 0.0f)
-        //{
-        //    m_target.camDistance /= amount;
-        //}
-        //m_target.camDistance = Mathf.Max(1.0f, m_target.camDistance);
-        //m_target.camRotation.y = Mathf.Clamp(m_target.camRotation.y, 20.0f, 160.0f);
+            if (Input.GetAxis("Mouse ScrollWheel") < 0.0f)
+            {
+                m_target.camDistance *= amount;
+            }
+            else if (Input.GetAxis("Mouse ScrollWheel") > 0.0f)
+            {
+                m_target.camDistance /= amount;
+            }
+            m_target.camDistance = Mathf.Max(1.0f, m_target.camDistance);
+            m_target.camRotation.y = Mathf.Clamp(m_target.camRotation.y, 20.0f, 160.0f);
 
-        //if(Input.GetMouseButton(0))
-        //{
-        //    m_target.camRotation.y += Input.GetAxis("Mouse Y") * m_camRotationSpeed;
-        //    m_target.camRotation.x += Input.GetAxis("Mouse X") * m_camRotationSpeed;
-        //}
+            if (Input.GetMouseButton(1))
+            {
+                m_target.camRotation.y += Input.GetAxis("Mouse Y") * m_camRotationSpeed;
+                m_target.camRotation.x += Input.GetAxis("Mouse X") * m_camRotationSpeed;
+            }
 
-        //smoothness = 1.0f / Mathf.Clamp(camSmoothness,0.01f,1.0f);
-        //float camLerp = Mathf.Clamp01(Time.deltaTime * smoothness);
+            smoothness = 1.0f / Mathf.Clamp(camSmoothness, 0.01f, 1.0f);
+            float camLerp = Mathf.Clamp01(Time.deltaTime * smoothness);
 
-        //m_position.camDistance = Mathf.Lerp(m_position.camDistance, m_target.camDistance, camLerp);
-        //m_position.camRotation = Vector2.Lerp(m_position.camRotation,m_target.camRotation,camLerp);
+            m_position.camDistance = Mathf.Lerp(m_position.camDistance, m_target.camDistance, camLerp);
+            m_position.camRotation = Vector2.Lerp(m_position.camRotation, m_target.camRotation, camLerp);
+        }
 
         smoothness = 1.0f / Mathf.Clamp(shipSmoothness,0.01f,1.0f);
         float shipLerp = Mathf.Clamp01(Time.deltaTime * smoothness);
@@ -210,31 +213,55 @@ public class Boat : MonoBehaviour
         eulerAngels.y += m_position.turnAmount;
         transform.eulerAngles = eulerAngels;
 
-        //float ct = Mathf.Cos(m_position.camRotation.y * Mathf.Deg2Rad);
-        //float st = Mathf.Sin(m_position.camRotation.y * Mathf.Deg2Rad);
-        //float cp = Mathf.Cos(m_position.camRotation.x * Mathf.Deg2Rad);
-        //float sp = Mathf.Sin(m_position.camRotation.x * Mathf.Deg2Rad);
-
-        //Vector3 lookAt = transform.position;
-        //Vector3 pos = lookAt + (new Vector3(sp * st, ct, cp * st)) * m_position.camDistance;
-
-        //camObj.transform.position = pos;
-        //camObj.transform.LookAt(lookAt);
-        camObj.transform.position = transform.Find("FlagPoint").position;
-        if (Input.GetMouseButton(0))
+        if (GlobalSetting.lookMode == 0)
         {
-            float rotX = camObj.transform.localEulerAngles.y;
-            float rotY = camObj.transform.localEulerAngles.x;
-            rotX += Input.GetAxis("Mouse X") * m_camRotationSpeed;
-            rotY -= Input.GetAxis("Mouse Y") * m_camRotationSpeed;
-            camObj.transform.rotation = Quaternion.Euler(RotYClamp(rotY), rotX, 0);
-        }
-        else
-        {
-            camObj.transform.rotation = Quaternion.Slerp(camObj.transform.rotation, transform.rotation, 0.6f * Time.deltaTime);
-            if (Quaternion.Angle(transform.rotation, camObj.transform.rotation) < 1)
+            camObj.transform.position = transform.Find("FlagPoint").position;
+            if (Input.GetMouseButton(1))
             {
-                camObj.transform.rotation = transform.rotation;
+                float rotX = camObj.transform.localEulerAngles.y;
+                float rotY = camObj.transform.localEulerAngles.x;
+                rotX += Input.GetAxis("Mouse X") * m_camRotationSpeed;
+                rotY -= Input.GetAxis("Mouse Y") * m_camRotationSpeed;
+                camObj.transform.rotation = Quaternion.Euler(RotYClamp(rotY,0), rotX, 0);
+            }
+            else
+            {
+                camObj.transform.rotation = Quaternion.Slerp(camObj.transform.rotation, transform.rotation, 0.8f * Time.deltaTime);
+                if (Quaternion.Angle(transform.rotation, camObj.transform.rotation) < 0.1f)
+                {
+                    camObj.transform.rotation = transform.rotation;
+                }
+            }
+        }
+
+        if (GlobalSetting.lookMode == 1)
+        {
+            float ct = Mathf.Cos(m_position.camRotation.y * Mathf.Deg2Rad);
+            float st = Mathf.Sin(m_position.camRotation.y * Mathf.Deg2Rad);
+            float cp = Mathf.Cos(m_position.camRotation.x * Mathf.Deg2Rad);
+            float sp = Mathf.Sin(m_position.camRotation.x * Mathf.Deg2Rad);
+
+            Vector3 lookAt = transform.position;
+            Vector3 pos = lookAt + (new Vector3(sp * st, ct, cp * st)) * m_position.camDistance;
+
+            camObj.transform.position = pos;
+            camObj.transform.LookAt(lookAt);
+        }
+
+        if (GlobalSetting.lookMode == 2)
+        {
+            if (Input.GetMouseButton(1))
+            {
+                float rotX = camObj.transform.localEulerAngles.y;
+                float rotY = camObj.transform.localEulerAngles.x;
+                rotX += Input.GetAxis("Mouse X") * m_camRotationSpeed;
+                rotY -= Input.GetAxis("Mouse Y") * m_camRotationSpeed;
+                camObj.transform.rotation = Quaternion.Euler(RotYClamp(rotY,2), rotX, 0);
+            }
+            //鼠标滚轮
+            if (Input.GetAxis("Mouse ScrollWheel") != 0)
+            {
+                camObj.transform.position += camObj.transform.forward * Input.GetAxis("Mouse ScrollWheel") * Mathf.Abs(camObj.transform.position.y);
             }
         }
 
@@ -249,7 +276,7 @@ public class Boat : MonoBehaviour
         }
     }
 
-    public float RotYClamp(float rotY)
+    public float RotYClamp(float rotY,int lookmode)
     {
         if(rotY >=360f)
         {
@@ -257,11 +284,25 @@ public class Boat : MonoBehaviour
         }
         if(rotY >= 180f && rotY < 360f)
         {
-            rotY = Mathf.Clamp(rotY, 330f, 359.9999f);
+            if(lookmode == 0)
+            {
+                rotY = Mathf.Clamp(rotY, 330f, 359.9999f);
+            }
+            else
+            {
+                rotY = Mathf.Clamp(rotY, 280f, 359.9999f);
+            }
         }
         if(rotY >= 0 && rotY < 180)
         {
-            rotY = Mathf.Clamp(rotY, 0f, 30f);
+            if(lookmode == 0)
+            {
+                rotY = Mathf.Clamp(rotY, 0f, 30f);
+            }
+            else
+            {
+                rotY = Mathf.Clamp(rotY, 0f, 80f);
+            }
         }
         return rotY;
     }

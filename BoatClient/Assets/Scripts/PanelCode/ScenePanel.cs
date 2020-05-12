@@ -27,6 +27,8 @@ public class ScenePanel : PanelBase
         Transform skinTrans = skin.transform;
         compass = skinTrans.Find("compass").GetComponent<RectTransform>();
         minMap = skinTrans.Find("MinMapBg").GetComponent<RectTransform>();
+        minMap.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width * 0.3f);//.Set(0,0,Screen.width * 0.3f,Screen.height * 0.3f);
+        minMap.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.height * 0.3f);
         minMapCam = GameObject.Find("MinMapCamera");
         compassBtnT = skinTrans.Find("sidebarPanel").Find("CompassBtn").GetComponent<Toggle>();
         minMapBtnT = skinTrans.Find("sidebarPanel").Find("MinMapBtn").GetComponent<Toggle>();
@@ -76,16 +78,16 @@ public class ScenePanel : PanelBase
         switch (index)
         {
             case 0:
-
+                GlobalSetting.lookMode = 0;
                 break;
             case 1:
-
+                GlobalSetting.lookMode = 1;
                 break;
             case 2:
-
+                GlobalSetting.lookMode = 2;
                 break;
             default:
-
+                GlobalSetting.lookMode = 0;
                 break;
         }
     }

@@ -168,6 +168,7 @@
     <Compile Include="Assets\Scripts\Bullet.cs" />
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Compass.cs" />
+    <Compile Include="Assets\Scripts\core\GlobalSetting.cs" />
     <Compile Include="Assets\Scripts\core\net\Connection.cs" />
     <Compile Include="Assets\Scripts\core\net\MsgDistribution.cs" />
     <Compile Include="Assets\Scripts\core\net\NetMgr.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="Assets\Scripts\core\panel\PanelMgr.cs" />
     <Compile Include="Assets\Scripts\core\Root.cs" />
     <Compile Include="Assets\Scripts\GameMgr.cs" />
+    <Compile Include="Assets\Scripts\MinMap.cs" />
     <Compile Include="Assets\Scripts\MultiBattle.cs" />
     <Compile Include="Assets\Scripts\MultiSimulate.cs" />
     <Compile Include="Assets\Scripts\PanelCode\InfoPanel.cs" />
