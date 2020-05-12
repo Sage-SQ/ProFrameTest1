@@ -170,6 +170,8 @@ public class Boat : MonoBehaviour
         m_acceleration = Mathf.Clamp(m_acceleration,0.0f,MAX_ACCELERATION);
         m_target.forwardAmount += forward * speed * m_acceleration * Time.deltaTime;
 
+        float smoothness;
+
         //float dt = Time.deltaTime * 1000.0f;
         //float amount = Mathf.Pow(1.02f, Mathf.Min(dt, 1.0f));
 
@@ -190,16 +192,15 @@ public class Boat : MonoBehaviour
         //    m_target.camRotation.x += Input.GetAxis("Mouse X") * m_camRotationSpeed;
         //}
 
-        //
-        float smoothness;
         //smoothness = 1.0f / Mathf.Clamp(camSmoothness,0.01f,1.0f);
         //float camLerp = Mathf.Clamp01(Time.deltaTime * smoothness);
+
+        //m_position.camDistance = Mathf.Lerp(m_position.camDistance, m_target.camDistance, camLerp);
+        //m_position.camRotation = Vector2.Lerp(m_position.camRotation,m_target.camRotation,camLerp);
 
         smoothness = 1.0f / Mathf.Clamp(shipSmoothness,0.01f,1.0f);
         float shipLerp = Mathf.Clamp01(Time.deltaTime * smoothness);
 
-        //m_position.camDistance = Mathf.Lerp(m_position.camDistance, m_target.camDistance, camLerp);
-        //m_position.camRotation = Vector2.Lerp(m_position.camRotation,m_target.camRotation,camLerp);
         m_position.forwardAmount = Vector3.Lerp(m_position.forwardAmount,m_target.forwardAmount,shipLerp);
         m_position.turnAmount = Mathf.Lerp(m_position.turnAmount, m_target.turnAmount, shipLerp);
 
@@ -220,7 +221,22 @@ public class Boat : MonoBehaviour
         //camObj.transform.position = pos;
         //camObj.transform.LookAt(lookAt);
         camObj.transform.position = transform.Find("FlagPoint").position;
-        camObj.transform.rotation = transform.rotation;
+        if (Input.GetMouseButton(0))
+        {
+            float rotX = camObj.transform.localEulerAngles.y;
+            float rotY = camObj.transform.localEulerAngles.x;
+            rotX += Input.GetAxis("Mouse X") * m_camRotationSpeed;
+            rotY -= Input.GetAxis("Mouse Y") * m_camRotationSpeed;
+            camObj.transform.rotation = Quaternion.Euler(RotYClamp(rotY), rotX, 0);
+        }
+        else
+        {
+            camObj.transform.rotation = Quaternion.Slerp(camObj.transform.rotation, transform.rotation, 0.6f * Time.deltaTime);
+            if (Quaternion.Angle(transform.rotation, camObj.transform.rotation) < 1)
+            {
+                camObj.transform.rotation = transform.rotation;
+            }
+        }
 
         m_velocity = transform.position - m_previousPos;
         m_previousPos = transform.position;
@@ -231,6 +247,23 @@ public class Boat : MonoBehaviour
             SendUnitInfo();
             lastSendInfoTime = Time.time;
         }
+    }
+
+    public float RotYClamp(float rotY)
+    {
+        if(rotY >=360f)
+        {
+            rotY -= 360f;
+        }
+        if(rotY >= 180f && rotY < 360f)
+        {
+            rotY = Mathf.Clamp(rotY, 330f, 359.9999f);
+        }
+        if(rotY >= 0 && rotY < 180)
+        {
+            rotY = Mathf.Clamp(rotY, 0f, 30f);
+        }
+        return rotY;
     }
 
     //电脑控制
@@ -278,6 +311,7 @@ public class Boat : MonoBehaviour
         m_position.forwardAmount = Vector3.zero;
         m_target = m_position;
         m_previousPos = transform.position;
+        camObj.transform.rotation = transform.rotation;
     }
 
     // Update is called once per frame
