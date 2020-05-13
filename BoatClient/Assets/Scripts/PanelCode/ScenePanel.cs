@@ -79,15 +79,19 @@ public class ScenePanel : PanelBase
         {
             case 0:
                 GlobalSetting.lookMode = 0;
+                Camera.main.nearClipPlane = 0.01f;
                 break;
             case 1:
                 GlobalSetting.lookMode = 1;
+                Camera.main.nearClipPlane = 0.3f;
                 break;
             case 2:
                 GlobalSetting.lookMode = 2;
+                Camera.main.nearClipPlane = 0.3f;
                 break;
             default:
                 GlobalSetting.lookMode = 0;
+                Camera.main.nearClipPlane = 0.01f;
                 break;
         }
     }

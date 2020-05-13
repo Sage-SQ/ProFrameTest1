@@ -250,6 +250,10 @@ public class Boat : MonoBehaviour
 
         if (GlobalSetting.lookMode == 2)
         {
+            if(GlobalSetting.isMapClick)
+            {
+                camObj.transform.position = new Vector3(GlobalSetting.MapToWorldPos.x, camObj.transform.position.y, GlobalSetting.MapToWorldPos.z);
+            }
             if (Input.GetMouseButton(1))
             {
                 float rotX = camObj.transform.localEulerAngles.y;
@@ -262,6 +266,10 @@ public class Boat : MonoBehaviour
             if (Input.GetAxis("Mouse ScrollWheel") != 0)
             {
                 camObj.transform.position += camObj.transform.forward * Input.GetAxis("Mouse ScrollWheel") * Mathf.Abs(camObj.transform.position.y);
+            }
+            if(camObj.transform.position.y > 800.0f)
+            {
+                camObj.transform.position = new Vector3(camObj.transform.position.x,800.0f, camObj.transform.position.z);
             }
         }
 
