@@ -12,6 +12,13 @@ public class ScenePanel : PanelBase
     private Toggle minMapBtnT;
     private Toggle testBtnT;
     private Dropdown lookChose;
+    private Text UserCountText;
+
+    private float zRotation = 0;
+    GameObject camObj;
+    Vector3 MinMapPlayerPos = Vector3.zero;
+    Dictionary<string,RectTransform> pointList = new Dictionary<string,RectTransform>();
+    string IDName = "";
 
     /// <summary> 初始化 </summary>
     public override void Init(params object[] args)
@@ -19,6 +26,8 @@ public class ScenePanel : PanelBase
         base.Init(args);
         skinPath = "ScenePanel";
         layer = PanelLayer.Panel;
+
+        camObj = Camera.main.gameObject;
     }
 
     public override void OnShowing()
@@ -34,10 +43,43 @@ public class ScenePanel : PanelBase
         minMapBtnT = skinTrans.Find("sidebarPanel").Find("MinMapBtn").GetComponent<Toggle>();
         testBtnT = skinTrans.Find("sidebarPanel").Find("TestBtn").GetComponent<Toggle>();
         lookChose = skinTrans.Find("sidebarPanel").Find("LookChose").GetComponent<Dropdown>();
+        UserCountText = skinTrans.Find("sceneInfo").Find("userCount").GetComponent<Text>();
+
+        //GlobalSetting.list
+        foreach (var item in GlobalSetting.list)
+        {
+            RectTransform point;
+            if (item.Value.boat.ctrlType == Boat.CtrlType.player)
+            {
+                IDName = item.Key;
+                point = Instantiate(Resources.Load<RectTransform>("PlayerPointGreen"));
+            }
+            else
+            {
+                point = Instantiate(Resources.Load<RectTransform>("PlayerPointRed"));
+            }
+            point.SetParent(minMap);
+            pointList.Add(item.Key, point);
+        }
+        UserCountText.text = "在线人数：" + GlobalSetting.list.Count + "    本机ID：" + IDName;
 
         compassBtnT.onValueChanged.AddListener(compassTState);
         minMapBtnT.onValueChanged.AddListener(minMapTState);
         lookChose.onValueChanged.AddListener(lookChoseState);
+    }
+
+    //帧更新
+    public override void Update()
+    {
+        zRotation = camObj.transform.eulerAngles.y;
+
+        compass.eulerAngles = new Vector3(0, 0, zRotation);//改变image的Z轴rotation
+
+        foreach (var item in pointList)
+        {
+            MinMapPlayerPos = minMapCam.GetComponent<Camera>().WorldToViewportPoint(GlobalSetting.list[item.Key].trans.position);
+            item.Value.anchoredPosition = new Vector3(MinMapPlayerPos.x * Screen.width * 0.3f, MinMapPlayerPos.y * Screen.height * 0.3f, 0);
+        }
     }
 
     public override void OnClosing()

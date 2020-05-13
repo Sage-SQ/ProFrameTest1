@@ -209,6 +209,7 @@ public class Boat : MonoBehaviour
 
         //
         transform.position += m_position.forwardAmount;
+        //GlobalSetting.playerPos = transform.position;
         Vector3 eulerAngels = transform.eulerAngles;
         eulerAngels.y += m_position.turnAmount;
         transform.eulerAngles = eulerAngels;

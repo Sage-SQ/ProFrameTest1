@@ -9,7 +9,7 @@ public class MultiSimulate : MonoBehaviour
     //船预设
     public GameObject[] boatPrefabs;
     //场景中所有船只
-    public Dictionary<string, SimulateBoat> list = new Dictionary<string, SimulateBoat>();
+    //public Dictionary<string, SimulateBoat> list = new Dictionary<string, SimulateBoat>();
 
     // Use this for initialization
     void Start()
@@ -21,7 +21,7 @@ public class MultiSimulate : MonoBehaviour
     //获取阵营 0表示错误
     public int GetCamp(GameObject boatObj)
     {
-        foreach (SimulateBoat mt in list.Values)
+        foreach (SimulateBoat mt in GlobalSetting.list.Values)
         {
             if (mt.boat.gameObject == boatObj)
                 return mt.camp;
@@ -38,7 +38,7 @@ public class MultiSimulate : MonoBehaviour
     //清理场景
     public void ClearBattle()
     {
-        list.Clear();
+        GlobalSetting.list.Clear();
         GameObject[] boats = GameObject.FindGameObjectsWithTag("Boat");
         for (int i = 0; i < boats.Length; i++)
             Destroy(boats[i]);
@@ -107,7 +107,8 @@ public class MultiSimulate : MonoBehaviour
         SimulateBoat sb = new SimulateBoat();
         sb.boat = boatObj.GetComponent<Boat>();
         sb.camp = team;
-        list.Add(id, sb);
+        sb.trans = boatObj.transform;
+        GlobalSetting.list.Add(id, sb);
         //用户处理
         if (id == GameMgr.instance.id)
         {
@@ -143,12 +144,12 @@ public class MultiSimulate : MonoBehaviour
         float gunX = proto.GetFloat(start, ref start);
         //处理
         Debug.Log("RecvUpdateUnitInfo " + id);
-        if (!list.ContainsKey(id))
+        if (!GlobalSetting.list.ContainsKey(id))
         {
             Debug.Log("RecvUpdateUnitInfo bt == null ");
             return;
         }
-        SimulateBoat sb = list[id];
+        SimulateBoat sb = GlobalSetting.list[id];
         if (id == GameMgr.instance.id)
             return;
 
