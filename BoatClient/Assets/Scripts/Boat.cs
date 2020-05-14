@@ -6,16 +6,8 @@ public class Boat : MonoBehaviour
 {
     GameObject camObj;
 
-    public List<AxleInfo> axleInfos;
     //马力/最大马力
     private float motor = 0;
-    public float maxMotorTorque;
-    //制动/最大制动
-    private float brakeTorque = 0;
-    public float maxBrakeTorque = 100;
-    //转向角/最大转向角
-    private float steering = 0;
-    public float maxSteeringAngle;
 
     //马达音源
     public AudioSource motorAudioSource;
@@ -334,8 +326,6 @@ public class Boat : MonoBehaviour
         if (ctrlType != CtrlType.none)
             return;
         motor = 0;
-        steering = 0;
-        brakeTorque = maxBrakeTorque / 2;
     }
 
     // Start is called before the first frame update
@@ -377,11 +367,6 @@ public class Boat : MonoBehaviour
         PlayerCtrl();
         CombuterCtrl();
         NoneCtrl();
-        //遍历车轴
-        foreach (AxleInfo axleInfo in axleInfos)
-        {
-
-        }
 
         //马达音效
         MotorSound();

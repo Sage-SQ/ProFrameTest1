@@ -40,7 +40,7 @@ public class Conn
 		this.socket = socket;
 		isUse = true;
 		buffCount = 0;
-		//心跳处理，稍后实现GetTimeStamp方法
+		//心跳处理，实现GetTimeStamp方法
 		lastTickTime = Sys.GetTimeStamp ();
 	}
 	//剩余的Buff
@@ -62,7 +62,7 @@ public class Conn
 			return;
 		if (player != null)
 		{
-			//玩家退出处理，稍后实现
+			//用户退出处理
 			player.Logout ();
 			return;
 		}
@@ -72,7 +72,7 @@ public class Conn
 		isUse = false;
 	}
 	
-	//发送协议，相关内容稍后实现
+	//发送协议
 	public void Send(ProtocolBase protocol)
 	{
 		ServNet.instance.Send (this, protocol);

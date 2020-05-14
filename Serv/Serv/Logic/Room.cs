@@ -103,7 +103,7 @@ public class Room
 		protocol.AddString ("GetRoomInfo");
 		//房间信息
 		protocol.AddInt (list.Count);
-		//每个玩家信息
+		//每个用户信息
 		foreach(Player p in list.Values)
 		{
 			protocol.AddString(p.id);

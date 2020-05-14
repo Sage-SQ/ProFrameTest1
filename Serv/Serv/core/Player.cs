@@ -3,7 +3,7 @@ using System;
 
 public class Player
 {
-	//id、连接、玩家数据
+	//id、连接、用户数据
 	public string id;
 	public Conn conn;
 	//public PlayerData data;

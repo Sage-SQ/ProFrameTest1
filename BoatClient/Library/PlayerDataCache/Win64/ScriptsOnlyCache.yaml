@@ -5,11 +5,7 @@ ScriptsOnlyBuild:
     - Ceto.AddFoamTrail
     - Ceto.Buoyancy
     - Ceto.BuoyantStructure
-    - Ceto.Common.Unity.Utility.DisableFog
-    - Ceto.Common.Unity.Utility.DisableShadows
-    - Ceto.Common.Unity.Utility.NotifyOnWillRender
     - Ceto.Common.Unity.Utility.RotateLight
-    - Ceto.IgnoreOceanEvents
     - Ceto.Ocean
     - Ceto.PlanarReflection
     - Ceto.ProjectedGrid
@@ -111,8 +107,6 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 9522}
     - Class: 114
-      Script: {instanceID: 9526}
-    - Class: 114
       Script: {instanceID: 9528}
     - Class: 114
       Script: {instanceID: 9534}
@@ -132,8 +126,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 9578}
     - Class: 114
       Script: {instanceID: 9580}
-    - Class: 114
-      Script: {instanceID: 9582}
     - Class: 114
       Script: {instanceID: 9586}
     - Class: 114
@@ -159,13 +151,13 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10208}
     - Class: 114
-      Script: {instanceID: 10418}
+      Script: {instanceID: 10420}
     - Class: 114
-      Script: {instanceID: 10476}
+      Script: {instanceID: 10478}
     - Class: 114
-      Script: {instanceID: 10798}
+      Script: {instanceID: 10800}
     - Class: 114
-      Script: {instanceID: 10862}
+      Script: {instanceID: 10864}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 124
@@ -247,19 +239,13 @@ ScriptsOnlyBuild:
     className: GroupTrack
   - hash:
       serializedVersion: 2
-      Hash: 8c1793063bdbbf7724ea31db776a9082
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Battle
-  - hash:
-      serializedVersion: 2
       Hash: a5781dc71a671b1ad2b38de19f24b71f
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: ActivationTrack
   - hash:
       serializedVersion: 2
-      Hash: fc6eceb66d5ff5a4ed20bca1ee77bcc8
+      Hash: ff43b973a08d1131e101fac47b4c99d5
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Boat
@@ -685,12 +671,6 @@ ScriptsOnlyBuild:
     className: AddWaveOverlay
   - hash:
       serializedVersion: 2
-      Hash: 29e2ab20e6b53d348e089d868b0a294a
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Bullet
-  - hash:
-      serializedVersion: 2
       Hash: f08a111e17bb701f9c9ec57bb78d9920
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -737,12 +717,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: Ceto
     className: ReflectionCameraCullingDistances
-  - hash:
-      serializedVersion: 2
-      Hash: 8c1793063bdbbf7724ea31db776a9082
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: MultiBattle
   - hash:
       serializedVersion: 2
       Hash: 9c30aaf5b2417dc83fdaec91dfa97dbb
@@ -859,12 +833,6 @@ ScriptsOnlyBuild:
     className: PanelMgr
   - hash:
       serializedVersion: 2
-      Hash: d1fd76cc5b00c6996481a566d69c5f64
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: AI
-  - hash:
-      serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -949,12 +917,6 @@ ScriptsOnlyBuild:
     className: SignalReceiver
   - hash:
       serializedVersion: 2
-      Hash: 9c30aaf5b2417dc83fdaec91dfa97dbb
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: OptionPanel
-  - hash:
-      serializedVersion: 2
       Hash: 4e3b2b002914345533e50d7cbcd5abf4
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -1015,16 +977,16 @@ ScriptsOnlyBuild:
     className: TestResultRendererCallback
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: test2DUI
+  - hash:
+      serializedVersion: 2
       Hash: c1933cc0a2f4ff6eb13333347497beb3
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: TimelineAsset
-  - hash:
-      serializedVersion: 2
-      Hash: 9c30aaf5b2417dc83fdaec91dfa97dbb
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: WinPanel
   - hash:
       serializedVersion: 2
       Hash: 864ad7cdb14ae0234696b315da4a3b33
@@ -1073,12 +1035,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: RoomListPanel
-  - hash:
-      serializedVersion: 2
-      Hash: 2247adea15263aa0863d7a00d5664bfd
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Tank
   - hash:
       serializedVersion: 2
       Hash: 9c30aaf5b2417dc83fdaec91dfa97dbb
@@ -1153,12 +1109,6 @@ ScriptsOnlyBuild:
     className: BuoyantStructure
   - hash:
       serializedVersion: 2
-      Hash: 9c30aaf5b2417dc83fdaec91dfa97dbb
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: TitlePanel
-  - hash:
-      serializedVersion: 2
       Hash: 6e506823b2efaa10f09aa90e57d03434
     assemblyName: Assembly-CSharp.dll
     namespaceName: Ceto
@@ -1175,18 +1125,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: test2DUI
-  - hash:
-      serializedVersion: 2
-      Hash: fdb97dba711481dd96c779910cd5f3ad
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: InfoUIManage
   platform: 19
   scenePathNames:
   - Assets/DemoScene1.unity
