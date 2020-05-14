@@ -89,7 +89,11 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 9394}
     - Class: 114
+      Script: {instanceID: 9396}
+    - Class: 114
       Script: {instanceID: 9400}
+    - Class: 114
+      Script: {instanceID: 9408}
     - Class: 114
       Script: {instanceID: 9416}
     - Class: 114
@@ -1119,7 +1123,7 @@ ScriptsOnlyBuild:
     className: GUIDisplay
   - hash:
       serializedVersion: 2
-      Hash: 69b853f3f37f004914f809cd2c447a6e
+      Hash: d88ae02e05ff73f2d95d22550eabf0d4
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MultiSimulate
@@ -1171,6 +1175,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: test2DUI
+  - hash:
+      serializedVersion: 2
+      Hash: fdb97dba711481dd96c779910cd5f3ad
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: InfoUIManage
   platform: 19
   scenePathNames:
   - Assets/DemoScene1.unity

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MultiSimulate : MonoBehaviour
 {
@@ -8,6 +9,14 @@ public class MultiSimulate : MonoBehaviour
     public static MultiSimulate instance;
     //船预设
     public GameObject[] boatPrefabs;
+
+    public Transform InfoCanTrans;
+    public Transform infoPanelTrans;
+    public Dictionary<Transform, Transform> UIPosDic = new Dictionary<Transform, Transform>();
+    Transform camTrans;
+    //船只离视口的距离
+    float distance = 100;
+
     //场景中所有船只
     //public Dictionary<string, SimulateBoat> list = new Dictionary<string, SimulateBoat>();
 
@@ -16,6 +25,7 @@ public class MultiSimulate : MonoBehaviour
     {
         //单例模式
         instance = this;
+        camTrans = Camera.main.transform;
     }
 
     //获取阵营 0表示错误
@@ -63,7 +73,7 @@ public class MultiSimulate : MonoBehaviour
             int team = proto.GetInt(start, ref start);
             int boatModel = proto.GetInt(start, ref start);
             int swopID = proto.GetInt(start, ref start);
-            GenerateTank(id, team, boatModel, swopID);
+            GenerateShip(id, team, boatModel, swopID);
         }
         NetMgr.srvConn.msgDist.AddListener("UpdateUnitInfo", RecvUpdateUnitInfo);
         //NetMgr.srvConn.msgDist.AddListener ("Shooting", RecvShooting);
@@ -72,7 +82,7 @@ public class MultiSimulate : MonoBehaviour
     }
 
     //产生船
-    public void GenerateTank(string id, int team,int boatModel, int swopID)
+    public void GenerateShip(string id, int team,int boatModel, int swopID)
     {
         //获取出生点
         Transform sp = GameObject.Find("SwopPoints").transform;
@@ -108,6 +118,7 @@ public class MultiSimulate : MonoBehaviour
         sb.boat = boatObj.GetComponent<Boat>();
         sb.camp = team;
         sb.trans = boatObj.transform;
+        GenerateShipUI(id,sb);
         GlobalSetting.list.Add(id, sb);
         //用户处理
         if (id == GameMgr.instance.id)
@@ -124,6 +135,31 @@ public class MultiSimulate : MonoBehaviour
         }
     }
 
+    //生成场景2dui
+    public void GenerateShipUI(string id,SimulateBoat sb)
+    {
+        Transform infoPanel;
+        infoPanel = Instantiate(infoPanelTrans);
+        infoPanel.SetParent(InfoCanTrans);
+        string boatInfoStr = "";
+        if (sb.boat.ctrlType == Boat.CtrlType.player)
+        {
+            //boatInfoStr = "[本机控制]\r\n";
+            boatInfoStr += "用户：" + id + "\r\n";
+            boatInfoStr += "型号：智腾号\r\n";
+            boatInfoStr += "航速：3.7节\r\n";
+            boatInfoStr += "航向：56.44";
+        }
+        else
+        {
+            boatInfoStr += "用户：" + id + "\r\n";
+            boatInfoStr += "型号：智腾号\r\n";
+            boatInfoStr += "航速：3.7节\r\n";
+            boatInfoStr += "航向：56.44";
+        }
+        infoPanel.Find("Text").GetComponent<Text>().text = boatInfoStr;
+        UIPosDic.Add(infoPanel, sb.trans);
+    }
 
     public void RecvUpdateUnitInfo(ProtocolBase protocol)
     {
@@ -154,5 +190,29 @@ public class MultiSimulate : MonoBehaviour
             return;
 
         sb.boat.NetForecastInfo(nPos, nRot);
+    }
+
+    private void Update()
+    {
+        if (GlobalSetting.isBoatInfoShow && GlobalSetting.lookMode != 0 && UIPosDic.Count > 0)
+        {
+            if(!InfoCanTrans.gameObject.activeSelf)
+            {
+                InfoCanTrans.gameObject.SetActive(true);
+            }
+            foreach (var item in UIPosDic)
+            {
+                distance = Vector3.Distance(camTrans.position,item.Value.position);//camTrans
+                item.Key.position = item.Value.position;
+                item.Key.GetComponent<RectTransform>().localScale = new Vector3(distance / 100, distance / 100, distance / 100);
+            }
+        }
+        else
+        {
+            if (InfoCanTrans.gameObject.activeSelf)
+            {
+                InfoCanTrans.gameObject.SetActive(false);
+            }
+        }
     }
 }

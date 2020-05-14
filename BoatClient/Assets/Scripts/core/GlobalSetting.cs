@@ -10,4 +10,6 @@ public class GlobalSetting
     //public static Vector3 playerPos = Vector3.zero;
     //场景中所有船只
     public static Dictionary<string, SimulateBoat> list = new Dictionary<string, SimulateBoat>();
+    //船只信息显示
+    public static bool isBoatInfoShow = true;
 }

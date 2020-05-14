@@ -10,7 +10,7 @@ public class ScenePanel : PanelBase
     private GameObject minMapCam;
     private Toggle compassBtnT;
     private Toggle minMapBtnT;
-    private Toggle testBtnT;
+    private Toggle BoatInfoBtnT;
     private Dropdown lookChose;
     private Text UserCountText;
 
@@ -36,12 +36,12 @@ public class ScenePanel : PanelBase
         Transform skinTrans = skin.transform;
         compass = skinTrans.Find("compass").GetComponent<RectTransform>();
         minMap = skinTrans.Find("MinMapBg").GetComponent<RectTransform>();
-        minMap.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width * 0.3f);//.Set(0,0,Screen.width * 0.3f,Screen.height * 0.3f);
-        minMap.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.height * 0.3f);
+        minMap.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width * 0.25f);//.Set(0,0,Screen.width * 0.3f,Screen.height * 0.3f);
+        minMap.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.height * 0.25f);
         minMapCam = GameObject.Find("MinMapCamera");
         compassBtnT = skinTrans.Find("sidebarPanel").Find("CompassBtn").GetComponent<Toggle>();
         minMapBtnT = skinTrans.Find("sidebarPanel").Find("MinMapBtn").GetComponent<Toggle>();
-        testBtnT = skinTrans.Find("sidebarPanel").Find("TestBtn").GetComponent<Toggle>();
+        BoatInfoBtnT = skinTrans.Find("sidebarPanel").Find("BoatInfoBtn").GetComponent<Toggle>();
         lookChose = skinTrans.Find("sidebarPanel").Find("LookChose").GetComponent<Dropdown>();
         UserCountText = skinTrans.Find("sceneInfo").Find("userCount").GetComponent<Text>();
 
@@ -65,6 +65,7 @@ public class ScenePanel : PanelBase
 
         compassBtnT.onValueChanged.AddListener(compassTState);
         minMapBtnT.onValueChanged.AddListener(minMapTState);
+        BoatInfoBtnT.onValueChanged.AddListener(BoatInfoTState);
         lookChose.onValueChanged.AddListener(lookChoseState);
     }
 
@@ -78,7 +79,7 @@ public class ScenePanel : PanelBase
         foreach (var item in pointList)
         {
             MinMapPlayerPos = minMapCam.GetComponent<Camera>().WorldToViewportPoint(GlobalSetting.list[item.Key].trans.position);
-            item.Value.anchoredPosition = new Vector3(MinMapPlayerPos.x * Screen.width * 0.3f, MinMapPlayerPos.y * Screen.height * 0.3f, 0);
+            item.Value.anchoredPosition = new Vector3(MinMapPlayerPos.x * Screen.width * 0.25f, MinMapPlayerPos.y * Screen.height * 0.25f, 0);
         }
     }
 
@@ -104,13 +105,28 @@ public class ScenePanel : PanelBase
         print("minMapTState" + value);
         if (value)
         {
-            minMap.GetComponent<Image>().enabled = true;
+            //minMap.GetComponent<Image>().enabled = true;
+            minMap.gameObject.SetActive(true);
             minMapCam.SetActive(true);
         }
         else
         {
             minMapCam.SetActive(false);
-            minMap.GetComponent<Image>().enabled = false;
+            //minMap.GetComponent<Image>().enabled = false;
+            minMap.gameObject.SetActive(false);
+        }
+    }
+
+    public void BoatInfoTState(bool value)
+    {
+        print("BoatInfoTState " + value);
+        if (value)
+        {
+            GlobalSetting.isBoatInfoShow = true;
+        }
+        else
+        {
+            GlobalSetting.isBoatInfoShow = false;
         }
     }
 

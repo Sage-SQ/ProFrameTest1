@@ -196,6 +196,7 @@
     <Compile Include="Assets\Scripts\SimulateBoat.cs" />
     <Compile Include="Assets\Scripts\Tank.cs" />
     <Compile Include="Assets\test\MouseLook.cs" />
+    <Compile Include="Assets\test\test2DUI.cs" />
     <Compile Include="Assets\test\testCamRay.cs" />
     <None Include="Assets\Ceto\Shaders\Read.compute" />
     <None Include="Assets\Ceto\Shaders\OceanBottom.shader" />
