@@ -45,22 +45,23 @@ public class ScenePanel : PanelBase
         lookChose = skinTrans.Find("sidebarPanel").Find("LookChose").GetComponent<Dropdown>();
         UserCountText = skinTrans.Find("sceneInfo").Find("userCount").GetComponent<Text>();
 
-        //GlobalSetting.list
-        foreach (var item in GlobalSetting.list)
-        {
-            RectTransform point;
-            if (item.Value.boat.ctrlType == Boat.CtrlType.player)
-            {
-                IDName = item.Key;
-                point = Instantiate(Resources.Load<RectTransform>("PlayerPointGreen"));
-            }
-            else
-            {
-                point = Instantiate(Resources.Load<RectTransform>("PlayerPointRed"));
-            }
-            point.SetParent(minMap);
-            pointList.Add(item.Key, point);
-        }
+        //小地图所有船的点位置
+        //foreach (var item in GlobalSetting.list)
+        //{
+        //    RectTransform point;
+        //    if (item.Value.boat.ctrlType == Boat.CtrlType.player)
+        //    {
+        //        IDName = item.Key;
+        //        point = Instantiate(Resources.Load<RectTransform>("PlayerPointGreen"));
+        //    }
+        //    else
+        //    {
+        //        point = Instantiate(Resources.Load<RectTransform>("PlayerPointRed"));
+        //    }
+        //    point.SetParent(minMap);
+        //    pointList.Add(item.Key, point);
+        //}
+
         UserCountText.text = "在线人数：" + GlobalSetting.list.Count + "    本机ID：" + IDName;
 
         compassBtnT.onValueChanged.AddListener(compassTState);
@@ -76,11 +77,12 @@ public class ScenePanel : PanelBase
 
         compass.eulerAngles = new Vector3(0, 0, zRotation);//改变image的Z轴rotation
 
-        foreach (var item in pointList)
-        {
-            MinMapPlayerPos = minMapCam.GetComponent<Camera>().WorldToViewportPoint(GlobalSetting.list[item.Key].trans.position);
-            item.Value.anchoredPosition = new Vector3(MinMapPlayerPos.x * Screen.width * 0.25f, MinMapPlayerPos.y * Screen.height * 0.25f, 0);
-        }
+        //小地图点位置刷新
+        //foreach (var item in pointList)
+        //{
+        //    MinMapPlayerPos = minMapCam.GetComponent<Camera>().WorldToViewportPoint(GlobalSetting.list[item.Key].trans.position);
+        //    item.Value.anchoredPosition = new Vector3(MinMapPlayerPos.x * Screen.width * 0.25f, MinMapPlayerPos.y * Screen.height * 0.25f, 0);
+        //}
     }
 
     public override void OnClosing()

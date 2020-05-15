@@ -13,9 +13,11 @@ public class MultiSimulate : MonoBehaviour
     public Transform InfoCanTrans;
     public Transform infoPanelTrans;
     public Dictionary<Transform, Transform> UIPosDic = new Dictionary<Transform, Transform>();
+    public Dictionary<Transform, Transform> FlagPosDic = new Dictionary<Transform, Transform>();
     Transform camTrans;
     //船只离视口的距离
     float distance = 100;
+    public Transform boatFlagPre;
 
     //场景中所有船只
     //public Dictionary<string, SimulateBoat> list = new Dictionary<string, SimulateBoat>();
@@ -118,6 +120,7 @@ public class MultiSimulate : MonoBehaviour
         sb.boat = boatObj.GetComponent<Boat>();
         sb.camp = team;
         sb.trans = boatObj.transform;
+        //生成场景2d3dui
         GenerateShipUI(id,sb);
         GlobalSetting.list.Add(id, sb);
         //用户处理
@@ -135,7 +138,7 @@ public class MultiSimulate : MonoBehaviour
         }
     }
 
-    //生成场景2dui
+    //生成场景2d3dui
     public void GenerateShipUI(string id,SimulateBoat sb)
     {
         Transform infoPanel;
@@ -159,6 +162,9 @@ public class MultiSimulate : MonoBehaviour
         }
         infoPanel.Find("Text").GetComponent<Text>().text = boatInfoStr;
         UIPosDic.Add(infoPanel, sb.trans);
+        Transform boatFlagTrans;
+        boatFlagTrans = Instantiate(boatFlagPre);
+        FlagPosDic.Add(boatFlagTrans,sb.trans);
     }
 
     public void RecvUpdateUnitInfo(ProtocolBase protocol)
@@ -213,6 +219,11 @@ public class MultiSimulate : MonoBehaviour
             {
                 InfoCanTrans.gameObject.SetActive(false);
             }
+        }
+        foreach (var item in FlagPosDic)
+        {
+            item.Key.position = new Vector3(item.Value.position.x, 6, item.Value.position.z);
+            item.Key.rotation = Quaternion.Euler(0, item.Value.eulerAngles.y, 0);
         }
     }
 }

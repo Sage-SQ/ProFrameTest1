@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+//using Newtonsoft.Json;
+//using Newtonsoft.Json.Linq;
 
 public class DataMgr
 {
@@ -96,45 +98,67 @@ public class DataMgr
 		}
 	}
 
-	//创建角色
-	//public bool CreatePlayer(string id)
-	//{
-	//	//防sql注入
-	//	if (!IsSafeStr(id))
-	//		return false;
-	//	//序列化
-	//	IFormatter formatter = new BinaryFormatter ();
-	//	MemoryStream stream = new MemoryStream ();
-	//	PlayerData playerData = new PlayerData ();
-	//	try 
-	//	{
-	//		formatter.Serialize(stream, playerData);
-	//	} 
-	//	catch(Exception e) 
-	//	{
-	//		Console.WriteLine("[DataMgr]CreatePlayer 序列化 " + e.Message);
-	//		return false;
-	//	}
-	//	byte[] byteArr = stream.ToArray();
-	//	//写入数据库
-	//	string cmdStr = string.Format ("insert into player set id ='{0}' ,data =@data;",id);
-	//	MySqlCommand cmd = new MySqlCommand (cmdStr, sqlConn);
-	//	cmd.Parameters.Add ("@data", MySqlDbType.Blob);
-	//	cmd.Parameters[0].Value = byteArr;
-	//	try 
-	//	{
-	//		cmd.ExecuteNonQuery ();
-	//		return true;
-	//	} 
-	//	catch (Exception e)
-	//	{
-	//		Console.WriteLine("[DataMgr]CreatePlayer 写入 " + e.Message);
-	//		return false;
-	//	}
-	//}
+    //创建角色
+    //public bool CreatePlayer(string id)
+    //{
+    //	//防sql注入
+    //	if (!IsSafeStr(id))
+    //		return false;
+    //	//序列化
+    //	IFormatter formatter = new BinaryFormatter ();
+    //	MemoryStream stream = new MemoryStream ();
+    //	PlayerData playerData = new PlayerData ();
+    //	try 
+    //	{
+    //		formatter.Serialize(stream, playerData);
+    //	} 
+    //	catch(Exception e) 
+    //	{
+    //		Console.WriteLine("[DataMgr]CreatePlayer 序列化 " + e.Message);
+    //		return false;
+    //	}
+    //	byte[] byteArr = stream.ToArray();
+    //	//写入数据库
+    //	string cmdStr = string.Format ("insert into player set id ='{0}' ,data =@data;",id);
+    //	MySqlCommand cmd = new MySqlCommand (cmdStr, sqlConn);
+    //	cmd.Parameters.Add ("@data", MySqlDbType.Blob);
+    //	cmd.Parameters[0].Value = byteArr;
+    //	try 
+    //	{
+    //		cmd.ExecuteNonQuery ();
+    //		return true;
+    //	} 
+    //	catch (Exception e)
+    //	{
+    //		Console.WriteLine("[DataMgr]CreatePlayer 写入 " + e.Message);
+    //		return false;
+    //	}
+    //}
 
-	//检测用户名密码
-	public bool CheckPassWord(string id, string pw)
+    //public static void readWriteJson()
+    //{
+    //    try
+    //    {
+    //        string path = Application.StartupPath + @"\data.json";
+    //        StreamReader streamReader = new StreamReader(path);
+    //        string jsonStr = streamReader.ReadToEnd();
+
+    //        dynamic jsonObj = JsonConvert.DeserializeObject<dynamic>(jsonStr);
+    //        jsonObj["userInfo"]["customerName"] = "123456";
+    //        streamReader.Close();
+
+    //        string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+    //        File.WriteAllText(path, output);
+
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        MessageBox.Show(e.Message + "/r/n" + e.StackTrace);
+    //    }
+    //}
+
+    //检测用户名密码
+    public bool CheckPassWord(string id, string pw)
 	{
 		//防sql注入
 		if (!IsSafeStr (id)||!IsSafeStr (pw))
