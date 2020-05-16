@@ -14,8 +14,11 @@ public class Room
 	public Status status = Status.Prepare;
 	//用户
 	public int maxPlayers = 6;
+    //房间中用户字典
 	public Dictionary<string,Player> list = new Dictionary<string,Player>();
 
+    //索引号
+    int AIIndex = 1;
 
 	//添加用户
 	public bool AddPlayer(Player player,int boatModelValue)
@@ -33,6 +36,11 @@ public class Room
 			if(list.Count == 0)
 				tempData.isOwner = true;
 			string id = player.id;
+            if(list.ContainsKey(id))
+            {
+                id += AIIndex.ToString();
+                AIIndex++;
+            }
 			list.Add(id, player);
 		}
 		return true;
@@ -150,18 +158,19 @@ public class Room
 		lock (list) 
 		{
 			protocol.AddInt(list.Count);
-			foreach(Player p in list.Values)
+			foreach(var p in list)
 			{
-				p.tempData.hp = 200;
-				protocol.AddString(p.id);
-				protocol.AddInt(p.tempData.team);
-                protocol.AddInt(p.tempData.boatModel);
-                if (p.tempData.team == 1)
+				p.Value.tempData.hp = 200;
+				//protocol.AddString(p.id);
+                protocol.AddString(p.Key);
+                protocol.AddInt(p.Value.tempData.team);
+                protocol.AddInt(p.Value.tempData.boatModel);
+                if (p.Value.tempData.team == 1)
 					protocol.AddInt(teamPos1++);
 				else
 					protocol.AddInt(teamPos2++);
-				
-				p.tempData.status = PlayerTempData.Status.Fight;
+
+                p.Value.tempData.status = PlayerTempData.Status.Fight;
 			}
 			Broadcast(protocol);
 		}

@@ -21,6 +21,7 @@ public partial class HandlePlayerMsg
 
         protocol = new ProtocolBytes ();
 		protocol.AddString ("CreateRoom");
+
         protocol.AddInt(boatModelValue);
         //条件检测
         if (player.tempData.status != PlayerTempData.Status.None) 
@@ -82,8 +83,40 @@ public partial class HandlePlayerMsg
 		}
 	}
 
-	//获取房间信息
-	public void MsgGetRoomInfo(Player player, ProtocolBase protoBase)
+    //加入AI
+    public void MsgAddAI(Player player, ProtocolBase protoBase)
+    {
+        //获取数值
+        int start = 0;
+        ProtocolBytes protocol = (ProtocolBytes)protoBase;
+        string protoName = protocol.GetString(start, ref start);
+        string id = protocol.GetString(start ,ref start);
+        int boatModelValue = protocol.GetInt(start, ref start);
+
+        //
+        protocol = new ProtocolBytes();
+        protocol.AddString("AddAI");
+        protocol.AddString(id);
+        protocol.AddInt(boatModelValue);
+
+        Room room = RoomMgr.instance.Diclist[player];
+        //添加AIPlayer
+        if (room.AddPlayer(player, boatModelValue))
+        {
+            room.Broadcast(room.GetRoomInfo());
+            protocol.AddInt(0);
+            player.Send(protocol);
+        }
+        else
+        {
+            //Console.WriteLine("MsgEnterRoom maxPlayer err " + player.id);
+            protocol.AddInt(-1);
+            player.Send(protocol);
+        }
+    }
+
+    //获取房间信息
+    public void MsgGetRoomInfo(Player player, ProtocolBase protoBase)
 	{
 		
 		if (player.tempData.status != PlayerTempData.Status.Room) 

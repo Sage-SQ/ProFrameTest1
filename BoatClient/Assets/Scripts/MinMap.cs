@@ -15,7 +15,7 @@ public class MinMap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (GlobalSetting.lookMode == 2 && Input.GetMouseButton(0))
         {
             Vector3 screenPos = cam.ScreenToViewportPoint(Input.mousePosition);
             if(screenPos.x < 1f && screenPos.y < 1f)

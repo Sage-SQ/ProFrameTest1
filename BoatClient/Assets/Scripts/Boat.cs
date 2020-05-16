@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Boat : MonoBehaviour
 {
+    public string id = "";
+
     GameObject camObj;
 
     //马力/最大马力
@@ -314,10 +316,12 @@ public class Boat : MonoBehaviour
         if (ctrlType != CtrlType.computer)
             return;
 
-        ////移动
-        //steering = ai.GetSteering();
-        //motor = ai.GetMotor();
-        //brakeTorque = ai.GetBrakeTorque();
+        //网络同步
+        if (Time.time - lastSendInfoTime > 0.2f)
+        {
+            SendAIUnitInfo();
+            lastSendInfoTime = Time.time;
+        }
     }
 
     //无人控制
@@ -363,6 +367,7 @@ public class Boat : MonoBehaviour
             NetUpdate();
             return;
         }
+
         //操控
         PlayerCtrl();
         CombuterCtrl();
@@ -391,6 +396,24 @@ public class Boat : MonoBehaviour
     {
         ProtocolBytes proto = new ProtocolBytes();
         proto.AddString("UpdateUnitInfo");
+        //位置旋转
+        Vector3 pos = transform.position;
+        Vector3 rot = transform.eulerAngles;
+        proto.AddFloat(pos.x);
+        proto.AddFloat(pos.y);
+        proto.AddFloat(pos.z);
+        proto.AddFloat(rot.x);
+        proto.AddFloat(rot.y);
+        proto.AddFloat(rot.z);
+
+        NetMgr.srvConn.Send(proto);
+    }
+
+    public void SendAIUnitInfo()
+    {
+        ProtocolBytes proto = new ProtocolBytes();
+        proto.AddString("UpdateAIUnitInfo");
+        proto.AddString(id);
         //位置旋转
         Vector3 pos = transform.position;
         Vector3 rot = transform.eulerAngles;

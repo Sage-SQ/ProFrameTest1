@@ -13,15 +13,17 @@ public class RoomMgr
 	
 	//房间列表
 	public List<Room> list = new List<Room>();
+    public Dictionary<Player,Room> Diclist = new Dictionary<Player, Room>();
 
-	//创建房间
-	public void CreateRoom(Player player,int boatModelValue)
+    //创建房间
+    public void CreateRoom(Player player,int boatModelValue)
 	{
 		Room room = new Room ();
 		lock (list) 
 		{
 			list.Add(room);
-			room.AddPlayer(player, boatModelValue);
+            Diclist.Add(player,room);
+            room.AddPlayer(player, boatModelValue);
 		}
 	}
 
@@ -38,7 +40,10 @@ public class RoomMgr
 		{
 			room.DelPlayer(player.id);
 			if(room.list.Count == 0)
-				list.Remove(room);
+            {
+                list.Remove(room);
+                Diclist.Remove(player);
+            }	
 		}
 	}
 

@@ -5,7 +5,11 @@ ScriptsOnlyBuild:
     - Ceto.AddFoamTrail
     - Ceto.Buoyancy
     - Ceto.BuoyantStructure
+    - Ceto.Common.Unity.Utility.DisableFog
+    - Ceto.Common.Unity.Utility.DisableShadows
+    - Ceto.Common.Unity.Utility.NotifyOnWillRender
     - Ceto.Common.Unity.Utility.RotateLight
+    - Ceto.IgnoreOceanEvents
     - Ceto.Ocean
     - Ceto.PlanarReflection
     - Ceto.ProjectedGrid

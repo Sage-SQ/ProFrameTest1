@@ -17,6 +17,7 @@ public class MultiSimulate : MonoBehaviour
     Transform camTrans;
     //船只离视口的距离
     float distance = 100;
+    float scaleValue = 1;
     public Transform boatFlagPre;
 
     //场景中所有船只
@@ -78,6 +79,7 @@ public class MultiSimulate : MonoBehaviour
             GenerateShip(id, team, boatModel, swopID);
         }
         NetMgr.srvConn.msgDist.AddListener("UpdateUnitInfo", RecvUpdateUnitInfo);
+        NetMgr.srvConn.msgDist.AddListener("UpdateAIUnitInfo", RecvUpdateAIUnitInfo);
         //NetMgr.srvConn.msgDist.AddListener ("Shooting", RecvShooting);
         //NetMgr.srvConn.msgDist.AddListener ("Hit", RecvHit);
         //NetMgr.srvConn.msgDist.AddListener ("Result", RecvResult);
@@ -118,7 +120,9 @@ public class MultiSimulate : MonoBehaviour
         //列表处理
         SimulateBoat sb = new SimulateBoat();
         sb.boat = boatObj.GetComponent<Boat>();
+        sb.boat.id = id;
         sb.camp = team;
+        sb.boatModel = boatModel;
         sb.trans = boatObj.transform;
         //生成场景2d3dui
         GenerateShipUI(id,sb);
@@ -133,8 +137,16 @@ public class MultiSimulate : MonoBehaviour
         }
         else
         {
-            sb.boat.ctrlType = Boat.CtrlType.net;
-            sb.boat.InitNetCtrl();  //初始化网络同步
+            if (id.Substring(0, GameMgr.instance.id.Length) == GameMgr.instance.id)
+            {
+                sb.boat.ctrlType = Boat.CtrlType.computer;
+                sb.boat.InitNetCtrl();
+            }
+            else
+            {
+                sb.boat.ctrlType = Boat.CtrlType.net;
+                sb.boat.InitNetCtrl();  //初始化网络同步
+            }
         }
     }
 
@@ -144,19 +156,44 @@ public class MultiSimulate : MonoBehaviour
         Transform infoPanel;
         infoPanel = Instantiate(infoPanelTrans);
         infoPanel.SetParent(InfoCanTrans);
-        string boatInfoStr = "";
-        if (sb.boat.ctrlType == Boat.CtrlType.player)
+        string boatModelStr = "";
+        switch(sb.boatModel)
         {
-            //boatInfoStr = "[本机控制]\r\n";
+            case 0:
+                boatModelStr = "智腾号";
+                break;
+            case 1:
+                boatModelStr = "智腾号green";
+                break;
+            case 2:
+                boatModelStr = "test";
+                break;
+            default:
+                boatModelStr = "智腾号";
+                break;
+        }
+        float degLon;
+        degLon = 120.877f - (sb.trans.position.x + 1016.2f) / (1852 * 60);
+        float degLat;
+        degLat = 36.3761f - (sb.trans.position.z - 890.2f) / (1852 * 60);
+
+        string boatInfoStr = "";
+        if (id == GameMgr.instance.id)
+        {
+            boatInfoStr = "[本机控制]\r\n";
             boatInfoStr += "用户：" + id + "\r\n";
-            boatInfoStr += "型号：智腾号\r\n";
+            boatInfoStr += "型号：" + boatModelStr + "\r\n";
+            boatInfoStr += "经度：" + degLon + "\r\n";
+            boatInfoStr += "纬度：" + degLat + "\r\n";
             boatInfoStr += "航速：3.7节\r\n";
             boatInfoStr += "航向：56.44";
         }
         else
         {
             boatInfoStr += "用户：" + id + "\r\n";
-            boatInfoStr += "型号：智腾号\r\n";
+            boatInfoStr += "型号：" + boatModelStr + "\r\n";
+            boatInfoStr += "经度：" + degLon + "\r\n";
+            boatInfoStr += "纬度：" + degLat + "\r\n";
             boatInfoStr += "航速：3.7节\r\n";
             boatInfoStr += "航向：56.44";
         }
@@ -185,10 +222,41 @@ public class MultiSimulate : MonoBehaviour
         float turretY = proto.GetFloat(start, ref start);
         float gunX = proto.GetFloat(start, ref start);
         //处理
-        Debug.Log("RecvUpdateUnitInfo " + id);
+        //Debug.Log("RecvUpdateUnitInfo " + id);
         if (!GlobalSetting.list.ContainsKey(id))
         {
             Debug.Log("RecvUpdateUnitInfo bt == null ");
+            return;
+        }
+        SimulateBoat sb = GlobalSetting.list[id];
+        if (id == GameMgr.instance.id)
+            return;
+
+        sb.boat.NetForecastInfo(nPos, nRot);
+    }
+
+    public void RecvUpdateAIUnitInfo(ProtocolBase protocol)
+    {
+        //解析协议
+        int start = 0;
+        ProtocolBytes proto = (ProtocolBytes)protocol;
+        string protoName = proto.GetString(start, ref start);
+        string id = proto.GetString(start, ref start);
+        Vector3 nPos;
+        Vector3 nRot;
+        nPos.x = proto.GetFloat(start, ref start);
+        nPos.y = proto.GetFloat(start, ref start);
+        nPos.z = proto.GetFloat(start, ref start);
+        nRot.x = proto.GetFloat(start, ref start);
+        nRot.y = proto.GetFloat(start, ref start);
+        nRot.z = proto.GetFloat(start, ref start);
+        float turretY = proto.GetFloat(start, ref start);
+        float gunX = proto.GetFloat(start, ref start);
+        //处理
+        //Debug.Log("RecvUpdateAIUnitInfo " + id);
+        if (!GlobalSetting.list.ContainsKey(id))
+        {
+            Debug.Log("RecvUpdateAIUnitInfo bt == null ");
             return;
         }
         SimulateBoat sb = GlobalSetting.list[id];
@@ -209,8 +277,11 @@ public class MultiSimulate : MonoBehaviour
             foreach (var item in UIPosDic)
             {
                 distance = Vector3.Distance(camTrans.position,item.Value.position);//camTrans
-                item.Key.position = item.Value.position;
-                item.Key.GetComponent<RectTransform>().localScale = new Vector3(distance / 100, distance / 100, distance / 100);
+                item.Key.position = item.Value.position + new Vector3(0,1,0);
+                //Vector3 pos = Camera.main.WorldToViewportPoint(item.Value.position);
+                //item.Key.position = Camera.main.ViewportToWorldPoint(pos);
+                scaleValue = Mathf.Clamp(distance/100,0.6f,100);
+                item.Key.GetComponent<RectTransform>().localScale = new Vector3(scaleValue, scaleValue, scaleValue);
             }
         }
         else
@@ -220,6 +291,7 @@ public class MultiSimulate : MonoBehaviour
                 InfoCanTrans.gameObject.SetActive(false);
             }
         }
+        //箭头标记位置方向同步
         foreach (var item in FlagPosDic)
         {
             item.Key.position = new Vector3(item.Value.position.x, 6, item.Value.position.z);

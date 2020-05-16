@@ -9,6 +9,10 @@ public class RoomPanel : PanelBase
     private List<Transform> prefabs = new List<Transform>();
     private Button closeBtn;
     private Button startBtn;
+    private Button addAIBtn;
+
+    //索引号
+    int AIIndex = 1;
 
     #region 生命周期
     /// <summary> 初始化 </summary>
@@ -32,9 +36,11 @@ public class RoomPanel : PanelBase
         }
         closeBtn = skinTrans.Find("CloseBtn").GetComponent<Button>();
         startBtn = skinTrans.Find("StartBtn").GetComponent<Button>();
+        addAIBtn = skinTrans.Find("AddAIBtn").GetComponent<Button>();
         //按钮事件
         closeBtn.onClick.AddListener(OnCloseClick);
         startBtn.onClick.AddListener(OnStartClick);
+        addAIBtn.onClick.AddListener(OnAddAIClick);
         //监听
         NetMgr.srvConn.msgDist.AddListener("GetRoomInfo", RecvGetRoomInfo);
         NetMgr.srvConn.msgDist.AddListener("Fight", RecvFight);
@@ -162,6 +168,40 @@ public class RoomPanel : PanelBase
         if (ret != 0)
         {
             PanelMgr.instance.OpenPanel<TipPanel>("", "开始模拟失败！只有主机可以开始模拟！");
+        }
+    }
+
+    public void OnAddAIClick()
+    {
+        string id = GameMgr.instance.id;
+        id += AIIndex.ToString();
+        AIIndex++;
+        ProtocolBytes protocol = new ProtocolBytes();
+        protocol.AddString("AddAI");
+        protocol.AddString(id);
+        //船类型，暂定为0
+        protocol.AddInt(0);
+        NetMgr.srvConn.Send(protocol, OnAddAIBack);
+    }
+
+    public void OnAddAIBack(ProtocolBase protocol)
+    {
+        //解析参数
+        ProtocolBytes proto = (ProtocolBytes)protocol;
+        int start = 0;
+        string protoName = proto.GetString(start, ref start);
+        string id = proto.GetString(start, ref start);
+        int boatModelValue = proto.GetInt(start, ref start);
+        print("protoName is " + protoName + " id is " + id + " 船类型 is " + boatModelValue);
+        int ret = proto.GetInt(start, ref start);
+        //处理
+        if (ret == 0)
+        {
+            PanelMgr.instance.OpenPanel<TipPanel>("", "添加AI成功!");
+        }
+        else
+        {
+            PanelMgr.instance.OpenPanel<TipPanel>("", "添加AI失败");
         }
     }
 
