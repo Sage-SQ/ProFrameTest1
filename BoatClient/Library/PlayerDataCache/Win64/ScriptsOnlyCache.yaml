@@ -247,7 +247,7 @@ ScriptsOnlyBuild:
     className: ActivationTrack
   - hash:
       serializedVersion: 2
-      Hash: ff43b973a08d1131e101fac47b4c99d5
+      Hash: ed7e1425eb59dabb9794abfe943db3fe
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Boat

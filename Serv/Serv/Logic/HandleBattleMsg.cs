@@ -53,8 +53,8 @@ public partial class HandlePlayerMsg
 		float rotX = protocol.GetFloat (start, ref start);
 		float rotY = protocol.GetFloat (start, ref start);
 		float rotZ = protocol.GetFloat (start, ref start);
-		float gunRot = protocol.GetFloat (start, ref start);
-		float gunRoll = protocol.GetFloat (start, ref start);
+		//float gunRot = protocol.GetFloat (start, ref start);
+		//float gunRoll = protocol.GetFloat (start, ref start);
 		//获取房间
 		if (player.tempData.status != PlayerTempData.Status.Fight)
 			return;
@@ -66,7 +66,7 @@ public partial class HandlePlayerMsg
 		player.tempData.lastUpdateTime = Sys.GetTimeStamp ();
 		//广播
 		ProtocolBytes protocolRet = new ProtocolBytes();
-		protocolRet.AddString ("UpdateUnitInfo");
+		protocolRet.AddString ("UpdateUnitInfoSer");
 		protocolRet.AddString (player.id);
 		protocolRet.AddFloat (posX);
 		protocolRet.AddFloat (posY);
@@ -74,8 +74,8 @@ public partial class HandlePlayerMsg
 		protocolRet.AddFloat (rotX);
 		protocolRet.AddFloat (rotY);
 		protocolRet.AddFloat (rotZ);
-		protocolRet.AddFloat (gunRot);
-		protocolRet.AddFloat (gunRoll);
+		//protocolRet.AddFloat (gunRot);
+		//protocolRet.AddFloat (gunRoll);
 		room.Broadcast (protocolRet);
 	}
 
@@ -106,7 +106,7 @@ public partial class HandlePlayerMsg
         player.tempData.lastUpdateTime = Sys.GetTimeStamp();
         //广播
         ProtocolBytes protocolRet = new ProtocolBytes();
-        protocolRet.AddString("UpdateAIUnitInfo");
+        protocolRet.AddString("UpdateUnitInfoSer");
         //protocolRet.AddString(player.id);
         protocolRet.AddString(id);
         protocolRet.AddFloat(posX);

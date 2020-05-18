@@ -78,8 +78,8 @@ public class MultiSimulate : MonoBehaviour
             int swopID = proto.GetInt(start, ref start);
             GenerateShip(id, team, boatModel, swopID);
         }
-        NetMgr.srvConn.msgDist.AddListener("UpdateUnitInfo", RecvUpdateUnitInfo);
-        NetMgr.srvConn.msgDist.AddListener("UpdateAIUnitInfo", RecvUpdateAIUnitInfo);
+        NetMgr.srvConn.msgDist.AddListener("UpdateUnitInfoSer", RecvUpdateUnitInfo);
+        NetMgr.srvConn.msgDist.AddListener("UpdateAIUnitInfoSer", RecvUpdateAIUnitInfo);
         //NetMgr.srvConn.msgDist.AddListener ("Shooting", RecvShooting);
         //NetMgr.srvConn.msgDist.AddListener ("Hit", RecvHit);
         //NetMgr.srvConn.msgDist.AddListener ("Result", RecvResult);
@@ -219,8 +219,8 @@ public class MultiSimulate : MonoBehaviour
         nRot.x = proto.GetFloat(start, ref start);
         nRot.y = proto.GetFloat(start, ref start);
         nRot.z = proto.GetFloat(start, ref start);
-        float turretY = proto.GetFloat(start, ref start);
-        float gunX = proto.GetFloat(start, ref start);
+        //float turretY = proto.GetFloat(start, ref start);
+        //float gunX = proto.GetFloat(start, ref start);
         //处理
         //Debug.Log("RecvUpdateUnitInfo " + id);
         if (!GlobalSetting.list.ContainsKey(id))
@@ -232,6 +232,10 @@ public class MultiSimulate : MonoBehaviour
         if (id == GameMgr.instance.id)
             return;
 
+        if (id == "qwe")
+        {
+            print("qwe " + nPos);
+        }
         sb.boat.NetForecastInfo(nPos, nRot);
     }
 
@@ -250,8 +254,8 @@ public class MultiSimulate : MonoBehaviour
         nRot.x = proto.GetFloat(start, ref start);
         nRot.y = proto.GetFloat(start, ref start);
         nRot.z = proto.GetFloat(start, ref start);
-        float turretY = proto.GetFloat(start, ref start);
-        float gunX = proto.GetFloat(start, ref start);
+        //float turretY = proto.GetFloat(start, ref start);
+        //float gunX = proto.GetFloat(start, ref start);
         //处理
         //Debug.Log("RecvUpdateAIUnitInfo " + id);
         if (!GlobalSetting.list.ContainsKey(id))

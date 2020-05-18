@@ -47,25 +47,29 @@ public class Boat : MonoBehaviour
     //位置预测
     public void NetForecastInfo(Vector3 nPos, Vector3 nRot)
     {
-        //预测的位置
-        fPos = lPos + (nPos - lPos) * 2;
-        fRot = lRot + (nRot - lRot) * 2;
-        if (Time.time - lastRecvInfoTime > 0.3f)
+        if(Time.time - lastRecvInfoTime != 0)
         {
-            fPos = nPos;
-            fRot = nRot;
+            //预测的位置
+            fPos = lPos + (nPos - lPos) * 2;
+            fRot = lRot + (nRot - lRot) * 2;
+            if (Time.time - lastRecvInfoTime > 0.3f)
+            {
+                fPos = nPos;
+                fRot = nRot;
+            }
+            //时间
+            delta = Time.time - lastRecvInfoTime;
+            //更新
+            lPos = nPos;
+            lRot = nRot;
+            lastRecvInfoTime = Time.time;
         }
-        //时间
-        delta = Time.time - lastRecvInfoTime;
-        //更新
-        lPos = nPos;
-        lRot = nRot;
-        lastRecvInfoTime = Time.time;
     }
 
     //初始化位置预测数据
     public void InitNetCtrl()
     {
+        //print("InitNetCtrl()");
         lPos = transform.position;
         lRot = transform.eulerAngles;
         fPos = transform.position;
@@ -82,6 +86,7 @@ public class Boat : MonoBehaviour
         //更新位置
         if (delta > 0)
         {
+            //print("bbb pos " + pos + "fpos" + fPos + "delta" + delta);
             transform.position = Vector3.Lerp(pos, fPos, delta);
             transform.rotation = Quaternion.Lerp(Quaternion.Euler(rot),
                                               Quaternion.Euler(fRot), delta);
@@ -341,12 +346,12 @@ public class Boat : MonoBehaviour
         motorAudioSource = gameObject.AddComponent<AudioSource>();
         motorAudioSource.spatialBlend = 1;
 
-        //人工智能
-        if (ctrlType == CtrlType.computer)
-        {
-            ai = gameObject.AddComponent<BoatAI>();
-            ai.boat = this;
-        }
+        ////人工智能
+        //if (ctrlType == CtrlType.computer)
+        //{
+        //    ai = gameObject.AddComponent<BoatAI>();
+        //    ai.boat = this;
+        //}
 
 
         m_position.camRotation.x = m_camStartRotationX;
