@@ -27,4 +27,9 @@ public class PlayerTempData
 	public float posZ;
 	public long lastShootTime;
 	public float hp = 100;
+    //
+    public int spotNum;
+    public float[] spotx;
+    public float[] spoty;
+    public float[] spotz;
 }

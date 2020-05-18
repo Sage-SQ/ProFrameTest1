@@ -10,6 +10,7 @@ public class RoomPanel : PanelBase
     private Button closeBtn;
     private Button startBtn;
     private Button addAIBtn;
+    private GameObject spotPanel;
 
     //索引号
     int AIIndex = 1;
@@ -33,10 +34,14 @@ public class RoomPanel : PanelBase
             string name = "PlayerPrefab" + i.ToString();
             Transform prefab = skinTrans.Find(name);
             prefabs.Add(prefab);
+            prefab.GetComponent<Button>().onClick.AddListener(delegate() {
+                OnItemClick(i);
+            });
         }
         closeBtn = skinTrans.Find("CloseBtn").GetComponent<Button>();
         startBtn = skinTrans.Find("StartBtn").GetComponent<Button>();
         addAIBtn = skinTrans.Find("AddAIBtn").GetComponent<Button>();
+        spotPanel = skinTrans.Find("SpotPanel").gameObject;
         //按钮事件
         closeBtn.onClick.AddListener(OnCloseClick);
         startBtn.onClick.AddListener(OnStartClick);
@@ -58,6 +63,12 @@ public class RoomPanel : PanelBase
         NetMgr.srvConn.msgDist.DelListener("GetRoomInfo", RecvGetRoomInfo);
         NetMgr.srvConn.msgDist.DelListener("Fight", RecvFight);
 
+    }
+
+    //test给船设置目标点自动航行
+    public void OnItemClick(int index)
+    {
+        spotPanel.SetActive(true);
     }
 
 
